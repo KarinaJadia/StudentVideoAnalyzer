@@ -17,6 +17,6 @@ figma mockup before building the actual product
 pastel purple & green & orange & pink & blue & red uconn theme, react app, python backend 
 
 tech stack:
-react + javascript front end
-python back end
-sql database
+<br>react + javascript front end
+<br>python back end
+<br>sql database
