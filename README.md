@@ -15,3 +15,8 @@ using github - branch protection rules for dev and main
 agile workflow (jira or trello) to track all of our tasks - using small tickets, track research too
 figma mockup before building the actual product
 pastel purple & green & orange & pink & blue & red uconn theme, react app, python backend 
+
+tech stack:
+react + javascript front end
+python back end
+sql database
