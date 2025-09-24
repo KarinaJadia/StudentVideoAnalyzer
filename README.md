@@ -2,6 +2,8 @@
 
 jira board: https://aivideosummary.atlassian.net/jira/software/projects/SCRUM/boards/1
 
+figma board: https://www.figma.com/design/4uKw8gooJb9447BtTdPLcM/AI-Analyzer?node-id=0-1&t=b4vfehAv9AsIkISk-1
+
 specs:
 upload video (file or yt link) and get ai generated summary
 generate transcripts and timestamps and summaries
