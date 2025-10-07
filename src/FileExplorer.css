@@ -13,11 +13,16 @@
 }
 
 .chat-item:hover {
-    background-color: #001f52;
+    background-color: #d1d1d1;
+}
+
+.chat-title {
+    color: #000000;
 }
 
 .chat-name {
     font-weight: 500;
+    color: #000000;
 }
 
 .chat-date {
