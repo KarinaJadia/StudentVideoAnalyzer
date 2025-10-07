@@ -1,5 +1,7 @@
 # StudentVideoAnalyzer
 
+App developed by Karina Jadia, Faiyhaa Sydra-Saulat, Priya Jeyaprakash, Neev Vachhani, and Xinyi Li for an independent study at UConn under the advisement of Dr. Lina Kloub.
+
 jira board: https://aivideosummary.atlassian.net/jira/software/projects/SCRUM/boards/1
 
 figma board: https://www.figma.com/design/4uKw8gooJb9447BtTdPLcM/AI-Analyzer?node-id=0-1&t=b4vfehAv9AsIkISk-1
