@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import "./ChatHistory.css";
+import "./FileExplorer.css";
 
 const ChatHistory = () => {
   const [chats, setChats] = useState([]);
@@ -19,6 +19,11 @@ const ChatHistory = () => {
     setChats(data);
   }, []);
 
+  const handleChatClick = (chatId) => {
+    // redirect to a specific chat page
+    navigate(`/chat/${chatId}`);
+  };
+
   return (
     <div className="chat-history-container">
       <button className="back-button">&lt; Back</button>
@@ -26,10 +31,15 @@ const ChatHistory = () => {
 
       <div className="chat-list">
         {chats.map((chat) => (
-          <div className="chat-item" key={chat.id}>
+          <button
+            key={chat.id}
+            className="chat-item"
+            onClick={() => handleChatClick(chat.id)}
+          >
             <span className="chat-name">{chat.title}</span>
+            <span className="spacer">       </span>
             <span className="chat-date">Last Accessed: {chat.lastAccessed}</span>
-          </div>
+          </button>
         ))}
       </div>
     </div>
