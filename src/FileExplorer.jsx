@@ -37,7 +37,6 @@ const ChatHistory = () => {
             onClick={() => handleChatClick(chat.id)}
           >
             <span className="chat-name">{chat.title}</span>
-            <span className="spacer">       </span>
             <span className="chat-date">Last Accessed: {chat.lastAccessed}</span>
           </button>
         ))}
