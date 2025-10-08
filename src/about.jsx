@@ -1,6 +1,6 @@
 import React from "react";
 
-const AboutPage = () => {
+const About = () => {
   return (
     <div id="about-page">
       <h1 id="about-title">About Husky Lecture Log</h1>
