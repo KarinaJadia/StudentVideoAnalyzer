@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    user_id SERIAL PRIMARY KEY, -- auto-incrementing ID
+    user_id INTEGER PRIMARY KEY, -- auto-incrementing ID
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE chats_list (
-    chat_id SERIAL PRIMARY KEY,
+    chat_id INTEGER PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     chat_title VARCHAR(150) NOT NULL,
     video_transcript TEXT,  -- can store entire transcript as JSON or plain text
@@ -16,7 +16,7 @@ CREATE TABLE chats_list (
 );
 
 CREATE TABLE chat_log (
-    message_id SERIAL PRIMARY KEY,
+    message_id INTEGER PRIMARY KEY,
     chat_id INT NOT NULL REFERENCES chats_list(chat_id) ON DELETE CASCADE,
     role VARCHAR(10) CHECK (role IN ('user', 'ai')) NOT NULL,
     content TEXT NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE chat_log (
 );
 
 CREATE TABLE permissions (
-    permission_id SERIAL PRIMARY KEY,
+    permission_id INTEGER PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     upload_videos BOOLEAN DEFAULT FALSE,
     save_transcript BOOLEAN DEFAULT FALSE,
