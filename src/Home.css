@@ -1,3 +1,61 @@
-#home-page{
-    color: black;
+#home-title{
+    color: rgb(18, 4, 122);
+}
+
+.custom-navbar .nav-link {
+    margin-left: 20px;   /* Space between links */
+    margin-right: 20px;  /* Optional, if you want even spacing on both sides */
+    color: rgb(18, 4, 122); 
+  }
+
+#welcome{
+    color: rgb(18, 4, 122);
+    font-size: 24px;
+}
+
+#link-button{
+  background-color: #a4c8e1;      /* Primary blue */
+  ;      /* Primary blue */
+  color: rgb(255, 255, 255);                   /* Text color */
+  padding: 10px 20px;             /* Space inside */
+  border: none;                   /* Remove default border */
+  border-radius: 8px;             /* Rounded corners */
+  font-size: 20px;                /* Text size */
+  cursor: pointer;      
+  justify-content: center; 
+  text-align: center;   /* Centers text horizontally */
+  vertical-align: middle;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    background-color: #a4c8e1;      /* Primary blue */
+    color: rgb(255, 255, 255);                   /* Text color */
+    padding: 10px 20px;             /* Space inside */
+    border: none;                   /* Remove default border */
+    border-radius: 8px;             /* Rounded corners */
+    font-size: 20px;                /* Text size */
+    cursor: pointer;      
+    justify-content: center; 
+    
+
+  }
+ 
+
+#cta-button{
+    background-color: #a4c8e1;      /* Primary blue */
+    ;      /* Primary blue */
+    color: rgb(255, 255, 255);                   /* Text color */
+    padding: 10px 20px;             /* Space inside */
+    border: none;                   /* Remove default border */
+    border-radius: 8px;             /* Rounded corners */
+    font-size: 20px;                /* Text size */
+    cursor: pointer;      
+    justify-content: center; 
+    text-align: center;   /* Centers text horizontally */
+    vertical-align: middle;
+  }
+
+::placeholder{
+    color : rgb(255, 255, 255);
 }
