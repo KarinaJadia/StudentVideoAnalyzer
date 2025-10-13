@@ -11,14 +11,13 @@ conn = psycopg2.connect(
 )
 cursor = conn.cursor()
 
-print('opening sql table')
-
-with open("tables.sql", "r") as f:
-    sql_script = f.read()
-
 print('executing script')
 
-cursor.execute(sql_script)
+with open("tables.sql") as f:
+    statements = f.read().split(';')
+    for stmt in statements:
+        if stmt.strip():
+            cursor.execute(stmt)
 
 conn.commit()
 cursor.close()
