@@ -5,6 +5,8 @@
 
 import psycopg2
 
+password = input('password: ')
+
 print('connecting')
 
 conn = psycopg2.connect(
@@ -12,7 +14,7 @@ conn = psycopg2.connect(
     port=5432,
     database="studentanalyzer",
     user="studentanalyzer",
-    password="studentanalyzer"
+    password=password
 )
 cursor = conn.cursor()
 
