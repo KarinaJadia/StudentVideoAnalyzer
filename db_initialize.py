@@ -1,3 +1,6 @@
+# this will create and RESET the database
+# do not run unless you want to RESET the database and DELETE ALL DATA
+
 import psycopg2
 
 print('connecting')
