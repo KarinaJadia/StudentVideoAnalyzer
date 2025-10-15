@@ -3,10 +3,10 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  background-color:white;
+  background-color: white;
   border-radius: 20px;
+  color: black; /* all text is black now */
 }
-
 html, body {
   background-color:#000E2F; /* uconn blue */
   margin: 0;
