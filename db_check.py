@@ -5,7 +5,7 @@ print('connecting')
 conn = psycopg2.connect(
     host="studentanalyzer-db.cq9oieoy4a2v.us-east-1.rds.amazonaws.com",
     port=5432,
-    database="studentanalyzer-db",
+    database="studentanalyzer",
     user="studentanalyzer",
     password="studentanalyzer"
 )

@@ -1,3 +1,8 @@
+DROP TABLE IF EXISTS chat_log CASCADE; -- it may show error but it works so ignore it
+DROP TABLE IF EXISTS chats_list CASCADE;
+DROP TABLE IF EXISTS permissions CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
 CREATE TABLE users (
     user_id INTEGER PRIMARY KEY, -- auto-incrementing ID
     first_name VARCHAR(50) NOT NULL,
