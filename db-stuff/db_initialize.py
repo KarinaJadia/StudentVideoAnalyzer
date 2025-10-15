@@ -27,7 +27,7 @@ with open("tables.sql") as f:
 
 print("tables created")
 
-print('inserting data')
+print('inserting test data')
 
 for i in range(0, 3):
 
