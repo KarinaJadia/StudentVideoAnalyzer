@@ -69,6 +69,7 @@ class Permission(BaseModel):
 
 @app.post("/users")
 def create_user(user: User):
+    require_db_connection()
     try:
         cursor.execute("""
             INSERT INTO users (first_name, last_name, username, password_sha256)
@@ -82,11 +83,13 @@ def create_user(user: User):
 
 @app.get("/users")
 def get_users():
+    require_db_connection()
     cursor.execute("SELECT * FROM users")
     return cursor.fetchall()
 
 @app.get("/users/{user_id}")
 def get_user(user_id: int):
+    require_db_connection()
     cursor.execute("SELECT * FROM users WHERE user_id = %s", (user_id,))
     user = cursor.fetchone()
     if not user:
@@ -95,6 +98,7 @@ def get_user(user_id: int):
 
 @app.post("/chats")
 def create_chat(chat: Chat):
+    require_db_connection()
     cursor.execute("""
         INSERT INTO chats_list (user_id, chat_title, video_transcript)
         VALUES (%s, %s, %s) RETURNING chat_id
@@ -104,6 +108,7 @@ def create_chat(chat: Chat):
 
 @app.get("/chats/{chat_id}")
 def get_chat(chat_id: int):
+    require_db_connection()
     cursor.execute("SELECT * FROM chats_list WHERE chat_id = %s", (chat_id,))
     chat = cursor.fetchone()
     if not chat:
@@ -112,6 +117,7 @@ def get_chat(chat_id: int):
 
 @app.post("/chat_logs")
 def create_chat_log(log: ChatLog):
+    require_db_connection()
     cursor.execute("""
         INSERT INTO chat_log (chat_id, role, content)
         VALUES (%s, %s, %s) RETURNING message_id
@@ -121,11 +127,13 @@ def create_chat_log(log: ChatLog):
 
 @app.get("/chat_logs/{chat_id}")
 def get_chat_logs(chat_id: int):
+    require_db_connection()
     cursor.execute("SELECT * FROM chat_log WHERE chat_id = %s ORDER BY timestamp ASC", (chat_id,))
     return cursor.fetchall()
 
 @app.post("/permissions")
 def create_permission(p: Permission):
+    require_db_connection()
     cursor.execute("""
         INSERT INTO permissions (user_id, upload_videos, save_transcript, access_admin_page)
         VALUES (%s, %s, %s, %s) RETURNING permission_id
@@ -135,6 +143,7 @@ def create_permission(p: Permission):
 
 @app.get("/permissions/{user_id}")
 def get_permission(user_id: int):
+    require_db_connection()
     cursor.execute("SELECT * FROM permissions WHERE user_id = %s", (user_id,))
     perm = cursor.fetchone()
     if not perm:
