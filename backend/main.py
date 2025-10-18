@@ -16,20 +16,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-def get_connection():
-    password = input("Database password: ")
-    conn = psycopg2.connect(
-        host="studentanalyzer-db.cq9oieoy4a2v.us-east-1.rds.amazonaws.com",
-        port=5432,
-        database="studentanalyzer",
-        user="studentanalyzer",
-        password=password,
-        cursor_factory=RealDictCursor
-    )
-    return conn
+conn = None
+cursor = None
 
-conn = get_connection()
-cursor = conn.cursor()
+class DBConnectRequest(BaseModel):
+    password: str
+
+@app.post("/connect")
+def connect_db(req: DBConnectRequest):
+    global conn, cursor
+    try:
+        conn = psycopg2.connect(
+            host="studentanalyzer-db.cq9oieoy4a2v.us-east-1.rds.amazonaws.com",
+            port=5432,
+            database="studentanalyzer",
+            user="studentanalyzer",
+            password=req.password,
+            cursor_factory=RealDictCursor
+        )
+        cursor = conn.cursor()
+        return {"status": "connected"}
+    except Exception as e:
+        conn = None
+        cursor = None
+        raise HTTPException(status_code=401, detail=f"Connection failed: {e}")
+
+def require_db_connection():
+    if conn is None or cursor is None:
+        raise HTTPException(status_code=500, detail="Database not connected. Call /connect first.")
 
 class User(BaseModel):
     first_name: str
