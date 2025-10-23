@@ -1,3 +1,6 @@
+# to test: http://127.0.0.1:8000/docs
+# make sure to connect to database first! (you know the password)
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
