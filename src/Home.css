@@ -1,12 +1,4 @@
-#home-title{
-    color: rgb(18, 4, 122);
-}
-
-.custom-navbar .nav-link {
-    margin-left: 20px;   /* Space between links */
-    margin-right: 20px;  /* Optional, if you want even spacing on both sides */
-    color: rgb(18, 4, 122); 
-  }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
 #welcome{
     color: rgb(18, 4, 122);

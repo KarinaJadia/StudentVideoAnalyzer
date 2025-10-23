@@ -1,6 +1,22 @@
+
+
+
 /* Import fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
+/* Login.css - ADD THIS AT THE VERY TOP */
+.login-override #root {
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  box-shadow: none !important;
+}
+
+.login-override {
+  background: #000E2F !important;
+  min-height: 100vh !important;
+}
 
 html, body, #root {
   margin: 0;

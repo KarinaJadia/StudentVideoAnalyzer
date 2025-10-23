@@ -21,40 +21,41 @@ html, body {
   width: 100%;
   margin: 0;
   padding: 0;
+  background: #fff;
 }
-
 
 div {
   max-width: none !important;
 }
 
+/* Main container - ensure white background */
+.transcription-full {
+  background: #fff;
+  min-height: 100vh;
+}
 
-.navbar, .transcription-header, .footer {
+
+
+/* Gradient Header */
+.transcription-header {
   position: relative;
   width: 100vw !important;
   margin-left: calc(-50vw + 50%) !important;
   left: 50%;
   right: 50%;
   transform: translateX(-50%);
-}
-
-/* Navbar */
-.navbar {
-  background: #001233;
-  color: #fff;
-  text-align: center;
-  padding: 16px 0;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-}
-
-/* Gradient Header */
-.transcription-header {
   padding: 80px 24px;
   text-align: center;
   background: linear-gradient(90deg, #A5D8FF, #FFD6A5, #A7E3C3, #F9C6D0, #C6A9E0);
   box-shadow: 0 6px 20px rgba(0,0,0,.08);
+}
+
+/* Ensure the inner content is centered and constrained */
+.transcription-header .inner {
+  width: min(900px, 92%);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .transcription-header h2 {
@@ -73,29 +74,21 @@ div {
   color: #979797; 
 }
 
-/*  Main content centered */
+/* Main content centered - ADD WHITE BACKGROUND */
 .transcription-content {
   width: min(900px, 92%);
   margin: 40px auto;
   text-align: center;
+  background: #fff; /* Add this line */
+  position: relative; /* Add this line */
+  z-index: 1; /* Add this line */
 }
 
-/* Footer  */
-.footer {
-  background: #001233;
-  color: white;
-  text-align: center;
-  padding: 20px 0;
-  margin-top: 60px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-}
 
 /* Drag & Drop Box */
 .transcription-drag-drop {
   background: #f8f9fa;
-  border: 2px dashed #C6A9E0; /* Purple from gradient */
+  border: 2px dashed #C6A9E0;
   border-radius: 16px;
   padding: 60px 40px;
   margin: 40px 0;

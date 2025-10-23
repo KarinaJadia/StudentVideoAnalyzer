@@ -5,11 +5,6 @@ export default function Transcription() {
   return (
     <div className="transcription-full">
       
-      {/* Navbar */}
-      <nav className="navbar">
-        <h3>NAVBAR</h3>
-      </nav>
-
       <div className="transcription-box">
         {/* Gradient Header */}
         <div className="transcription-header">
@@ -55,10 +50,6 @@ export default function Transcription() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className="footer">
-        <p>© 2025 Student Video Analyzer</p>
-      </footer>
     </div>
   );
 }

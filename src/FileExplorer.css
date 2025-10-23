@@ -1,6 +1,7 @@
+
 .chat-item {
     display: flex;
-    justify-content: space-between; /* pushes title left, date right */
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     background: none;
@@ -8,7 +9,7 @@
     padding: 12px 16px;
     cursor: pointer;
     text-align: left;
-    gap: 55px;  /* gap between title and last accessed */
+    gap: 55px;
     transition: background-color 0.2s ease;
 }
 

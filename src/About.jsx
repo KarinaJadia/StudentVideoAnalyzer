@@ -3,6 +3,7 @@ import React from "react";
 const About = () => {
   return (
     <div id="about-page">
+
       <h1 id="about-title">About Husky Lecture Log</h1>
 
       <section id="future-of-learning">

@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react"; 
-import Transcription from "./transcription"; 
+import React, { useState, useEffect } from "react";
 import "./Login.css";
 
-export default function Login() {
+export default function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const [rememberMe, setRememberMe] = useState(false);
 
-  
   const validUsers = [
     { email: "test@example.com", password: "password123" },
     { email: "student@uconn.edu", password: "husky123" },
@@ -19,18 +16,17 @@ export default function Login() {
     { email: "puppycat@cuteness.com", password: "puppycat1234" }
   ];
 
-  useEffect(() =>  {
+  useEffect(() => {
     const savedEmail = localStorage.getItem("rememberedEmail");
     if (savedEmail) {
-      setEmail(savedEmail)
+      setEmail(savedEmail);
       setRememberMe(true);
     }
-  }, [] );
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (email === "" || password === "") {
+    if (!email || !password) {
       alert("Please fill in both email and password");
       return;
     }
@@ -38,9 +34,8 @@ export default function Login() {
     setIsLoading(true);
 
     setTimeout(() => {
-      
       const userExists = validUsers.find(
-        user => user.email === email && user.password === password
+        (user) => user.email === email && user.password === password
       );
 
       if (userExists) {
@@ -49,33 +44,15 @@ export default function Login() {
         } else {
           localStorage.removeItem("rememberedEmail");
         }
-        
-        setIsLoggedIn(true); 
+        // ✅ Tell App that login succeeded. App will render <Home />
+        onLoginSuccess?.();
       } else {
         alert("Invalid email or password.");
       }
-      
-      console.log("Email:", email);
-      console.log("Password:", password);
+
       setIsLoading(false);
     }, 1500);
   };
-
-  if (isLoggedIn) {
-    return (
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        background: 'white',
-        overflow: 'auto'
-      }}>
-        <Transcription />
-      </div>
-    );
-  }
 
   return (
     <div className="login-full">
@@ -87,8 +64,8 @@ export default function Login() {
 
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="input-group">
-            <input 
-              type="email" 
+            <input
+              type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -97,9 +74,9 @@ export default function Login() {
           </div>
 
           <div className="input-group">
-            <input 
-              type="password" 
-              placeholder="Password" 
+            <input
+              type="password"
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
@@ -107,9 +84,9 @@ export default function Login() {
           </div>
 
           <div className="remember-row">
-            <input 
-              type="checkbox" 
-              id="remember" 
+            <input
+              type="checkbox"
+              id="remember"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
               disabled={isLoading}
@@ -117,32 +94,16 @@ export default function Login() {
             <label htmlFor="remember">Remember Me</label>
           </div>
 
-          <button 
+          <button
             type="submit"
             disabled={isLoading}
-            style={{
-              opacity: isLoading ? 0.7 : 1,
-              cursor: isLoading ? 'not-allowed' : 'pointer'
-            }}
+            style={{ opacity: isLoading ? 0.7 : 1, cursor: isLoading ? "not-allowed" : "pointer" }}
           >
             {isLoading ? "Logging in..." : "Log In"}
           </button>
         </form>
 
-        
-        <div style={{
-          marginTop: '1rem',
-          textAlign: 'center',
-          fontSize: '0.75rem',
-          color: 'rgba(255, 255, 255, 0.6)'
-        }}>
-          Test Accounts:
-          <br />
-          test@example.com / password123
-          <br />
-          student@uconn.edu / husky123
-          <br />
-          professor@uconn.edu / teach2024
+        <div style={{ marginTop: "1rem", textAlign: "center", fontSize: "0.75rem", color: "rgba(255,255,255,0.6)" }}>
         </div>
       </div>
     </div>
