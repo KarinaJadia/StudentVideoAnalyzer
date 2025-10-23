@@ -43,8 +43,7 @@ export default function Login({ onLoginSuccess }) {
           localStorage.setItem("rememberedEmail", email);
         } else {
           localStorage.removeItem("rememberedEmail");
-        }
-        // ✅ Tell App that login succeeded. App will render <Home />
+        } 
         onLoginSuccess?.();
       } else {
         alert("Invalid email or password.");
