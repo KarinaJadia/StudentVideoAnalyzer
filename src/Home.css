@@ -3,7 +3,11 @@
 #welcome{
     color: rgb(18, 4, 122);
     font-size: 24px;
+    border: purple !important;
+    border-color: purple !important;
+    
 }
+
 
 #link-button{
   background-color: #a4c8e1;      /* Primary blue */

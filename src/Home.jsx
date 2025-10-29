@@ -1,33 +1,35 @@
 import React from "react";
 import "./Home.css"
-import { Navbar, Nav, Container } from "react-bootstrap";
-
 
 const Home = () => {
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log('Selected file:', file.name);
+      // Handle the file
+    }
+  };
+
   return (
     <div id="home-page">
-
-
-        <h1>  </h1>
-        <h1>  </h1>
-    
-
         <section id="search">
             <text id="welcome">Learn from a new video!</text>
-            <h1>  </h1>
-
             
-            <input type="text" id="link-button" placeholder="Enter a video link!"></input>
-            <h1>  </h1>
-
+            <input type="text" id="link-button" placeholder="Enter a video link!" />
+            
             <form id="file-button">
-                <input type="file" hidden id ="file-upload" />
-                <label for="file-upload" class="custom-file-upload">Upload a video File!</label>
+                <input 
+                  type="file" 
+                  hidden 
+                  id="file-upload" 
+                  onChange={handleFileUpload}
+                />
+                <label htmlFor="file-upload" className="custom-file-upload">
+                  Upload a video File!
+                </label>
             </form>
 
-            <h1>  </h1>
-
-            <input type="text" id="cta-button" placeholder="Enter your question?"></input>    
+            <input type="text" id="cta-button" placeholder="Enter your question?" />  
         </section>
     </div>
   );

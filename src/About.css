@@ -1,4 +1,199 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
-.about-title {
-  color: black;
+#about-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+#future-learning {
+  position: relative;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  padding: 60px 24px;
+  text-align: center;
+  background: linear-gradient(120deg, #A5D8FF, #FFD6A5, #A7E3C3, #F9C6D0, #C6A9E0);
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+}
+
+/* About Husky Lecture Log - Main Heading */
+#future-learning #about-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: bold;
+  font-size: 2.5rem;
+  color: #000E2F;
+  background: none;
+  width: auto;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  margin: 0 0 1.5rem 0;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+/* Horizontal line under title */
+#future-learning #about-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 3px;
+  background: #000E2F;
+  border-radius: 2px;
+}
+
+/* "The Future of Video Learning Starts Now" - Subheading */
+#future-learning h2 {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: bold;
+  font-size: 1.8rem;
+  color: #000E2F;
+  margin-bottom: 2rem;
+}
+
+/* Paragraph text in header */
+#future-learning p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  color: #000E2F;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.side-by-side-container {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+  padding: 0 2rem; 
+}
+
+/* Section headings in boxes - Subheading style */
+.about-section h3 {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #000E2F;
+  margin-bottom: 1rem;
+}
+
+/* Paragraph text in boxes - Chat Messages style */
+.about-section p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  color: #000000;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+/* Feature items - Chat Messages style */
+.feature-item {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  color: #000000;
+  line-height: 1.5;
+  margin-bottom: 0.8rem;
+}
+
+.feature-item strong {
+  font-weight: 600;
+  color: #000E2F;
+}
+
+/* Box styles */
+#content-deconstruction {
+  background: rgba(198, 169, 224, 0.45); 
+  border: 2px solid #C6A9E0; 
+  border-radius: 16px;
+  padding: 2rem;
+  flex: 1;
+  min-height: 300px;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+#video-chatbot {
+  background: rgba(249, 198, 208, 0.45); 
+  border: 2px solid #F9C6D0; 
+  border-radius: 16px;
+  padding: 2rem;
+  flex: 1;
+  min-height: 300px;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+#dedicated-space {
+  background: rgba(167, 227, 195, 0.45); 
+  border: 2px solid #A7E3C3; 
+  border-radius: 16px;
+  padding: 2rem;
+  flex: 1;
+  min-height: 300px;
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+/* Closing section */
+#closing {
+  padding: 2rem;
+  text-align: center;
+}
+
+#closing p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  color: #000000;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* CTA Button - Button style */
+#cta-button {
+  border: none;
+  border-radius: 12px;
+  padding: 0.9rem 2rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  
+  color: #000000;
+  background: rgba(167, 227, 195, 1);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  max-width: 300px;
+  margin: 0 auto;
+  display: block;
+}
+
+#cta-button:hover {
+  transform: translateY(-6px);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0.95;
+}
+
+#cta-button:active {
+  transform: translateY(-2px);
+}
+
+#cta-button:focus {
+  outline: none;
+}
+
+#closing #cta-button {
+  color: #000000;
 }
