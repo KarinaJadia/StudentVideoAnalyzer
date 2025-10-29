@@ -99,6 +99,19 @@ def get_user(user_id: int):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
+@app.get("/users/{user_id}/chats")
+def get_user_chats(user_id: int):
+    require_db_connection()
+    cursor.execute("""
+        SELECT * FROM chats_list
+        WHERE user_id = %s
+        ORDER BY last_access_date DESC
+    """, (user_id,))
+    chats = cursor.fetchall()
+    if not chats:
+        raise HTTPException(status_code=404, detail="No chats found for this user")
+    return chats
+
 @app.post("/chats")
 def create_chat(chat: Chat):
     require_db_connection()
