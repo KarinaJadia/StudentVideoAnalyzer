@@ -30,3 +30,13 @@
     color: #666;
     font-size: 0.9rem;
 }
+
+.back-button {
+    color: #000000;
+    background-color: pink;
+}
+
+.back-button:hover {
+    background-color: rgb(255, 120, 143);
+    transform: translateY(-3px);    
+}

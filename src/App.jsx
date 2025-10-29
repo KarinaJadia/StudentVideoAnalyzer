@@ -24,17 +24,17 @@ function App() {
         </div>
       );
     } else if (currentPage === 'Home') {
-      return <Home />;
+      return <Home setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'transcription') {
-      return <Transcription />;
+      return <Transcription setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'FileExplorer') {
-      return <FileExplorer />;
+      return <FileExplorer setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'About') {
-      return <About />;
+      return <About setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'Admin') {
-      return <Admin />;
+      return <Admin setCurrentPage={setCurrentPage} />;
     } else {
-      return <Home />;
+      return <Home setCurrentPage={setCurrentPage} />;
     }
   };
 

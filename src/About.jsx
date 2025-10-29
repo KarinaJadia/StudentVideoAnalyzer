@@ -1,7 +1,13 @@
 import React from "react";
 import "./About.css";
 
-const About = () => {
+const About = ({setCurrentPage}) => {
+
+    const handleTryClick = () => {
+    // back button redirects to transcript page
+    setCurrentPage('transcription');
+  };
+
   return (
     <div id="about-page">
       <section className="about-section" id="future-learning">
@@ -80,7 +86,7 @@ const About = () => {
         <p>
           Husky Lecture Log: Your complete learning partner — transforming video into instant clarity.
         </p>
-        <button id="cta-button">Try it out today!</button>
+        <button id="cta-button" onClick={() => handleTryClick()}>Try it out today!</button>
       </section>
     </div>
   );
