@@ -2,32 +2,32 @@ import React, { useState, useEffect } from "react";
 import "./Login.css";
 
 export default function Login({ onLoginSuccess }) {
-  const [email, setEmail] = useState("");
+  const [username, setusername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
   const validUsers = [
-    { email: "test@example.com", password: "password123" },
-    { email: "student@uconn.edu", password: "husky123" },
-    { email: "professor@uconn.edu", password: "teach2024" },
-    { email: "admin@uconn.edu", password: "admin123" },
-    { email: "user@demo.com", password: "demo123" },
-    { email: "puppycat@cuteness.com", password: "puppycat1234" }
+    { username: "test", password: "password123" },
+    { username: "student", password: "husky123" },
+    { username: "professor", password: "teach2024" },
+    { username: "admin", password: "admin123" },
+    { username: "user", password: "demo123" },
+    { username: "puppycat", password: "puppycat1234" }
   ];
 
   useEffect(() => {
-    const savedEmail = localStorage.getItem("rememberedEmail");
-    if (savedEmail) {
-      setEmail(savedEmail);
+    const savedusername = localStorage.getItem("rememberedusername");
+    if (savedusername) {
+      setusername(savedusername);
       setRememberMe(true);
     }
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      alert("Please fill in both email and password");
+    if (!username || !password) {
+      alert("Please fill in both username and password");
       return;
     }
 
@@ -35,18 +35,18 @@ export default function Login({ onLoginSuccess }) {
 
     setTimeout(() => {
       const userExists = validUsers.find(
-        (user) => user.email === email && user.password === password
+        (user) => user.username === username && user.password === password
       );
 
       if (userExists) {
         if (rememberMe) {
-          localStorage.setItem("rememberedEmail", email);
+          localStorage.setItem("rememberedusername", username);
         } else {
-          localStorage.removeItem("rememberedEmail");
+          localStorage.removeItem("rememberedusername");
         } 
         onLoginSuccess?.();
       } else {
-        alert("Invalid email or password.");
+        alert("Invalid username or password.");
       }
 
       setIsLoading(false);
@@ -64,10 +64,10 @@ export default function Login({ onLoginSuccess }) {
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="input-group">
             <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="username"
+              placeholder="username"
+              value={username}
+              onChange={(e) => setusername(e.target.value)}
               disabled={isLoading}
             />
           </div>
