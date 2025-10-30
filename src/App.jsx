@@ -53,7 +53,7 @@ function App() {
               <li><a href="#" onClick={() => setCurrentPage('transcription')}>Transcription</a></li>
               <li><a href="#" onClick={() => setCurrentPage('FileExplorer')}>Files</a></li>
               <li><a href="#" onClick={() => setCurrentPage('About')}>About</a></li>
-              <li><a href="#" onClick={() => setCurrentPage('API Tester')}>API Tester</a></li>
+              <li><a href="#" onClick={() => setCurrentPage('API Tester')}>API Tester</a></li> {/* todo: delete */}
               <li><a href="#" onClick={() => setCurrentPage('login')}>Logout ➜]</a></li>
             </ul>
           </div>
