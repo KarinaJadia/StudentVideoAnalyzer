@@ -7,6 +7,7 @@ import Admin from './Admin';
 import FileExplorer from './FileExplorer';
 import Home from './Home';
 import Transcription from './transcription';
+import ApiTester from "./ApiTester";
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
@@ -33,6 +34,8 @@ function App() {
       return <About setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'Admin') {
       return <Admin setCurrentPage={setCurrentPage} />;
+    }else if (currentPage === 'API Tester') {
+      return <ApiTester setCurrentPage={setCurrentPage} />;
     } else {
       return <Home setCurrentPage={setCurrentPage} />;
     }
@@ -50,6 +53,7 @@ function App() {
               <li><a href="#" onClick={() => setCurrentPage('transcription')}>Transcription</a></li>
               <li><a href="#" onClick={() => setCurrentPage('FileExplorer')}>Files</a></li>
               <li><a href="#" onClick={() => setCurrentPage('About')}>About</a></li>
+              <li><a href="#" onClick={() => setCurrentPage('API Tester')}>API Tester</a></li>
               <li><a href="#" onClick={() => setCurrentPage('login')}>Logout ➜]</a></li>
             </ul>
           </div>

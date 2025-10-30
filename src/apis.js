@@ -21,6 +21,17 @@ export async function connectDB(password) {
   return request("/connect", "POST", { password });
 }
 
+/*
+post JSON:
+{
+  "first_name": "Test0",
+  "last_name": "User0",
+  "username": "testuser0",
+  "password_sha256": "e3afed0047b08059d0fada10f400c1e50                               "
+}
+
+returns user ID
+*/
 export async function createUser(first_name, last_name, username, password_sha256) {
   return request("/users", "POST", { first_name, last_name, username, password_sha256 });
 }
@@ -45,6 +56,16 @@ export async function getChat(chat_id) {
   return request(`/chats/${chat_id}`, "GET");
 }
 
+/*
+post JSON:
+{
+  "chat_id": 2,
+  "role": "ai",
+  "content": "hello i am the ai"
+}
+
+returns message id
+*/
 export async function createChatLog(chat_id, role, content) {
   return request("/chat_logs", "POST", { chat_id, role, content });
 }
@@ -53,8 +74,18 @@ export async function getChatLogs(chat_id) {
   return request(`/chat_logs/${chat_id}`, "GET");
 }
 
-export async function createPermission(user_id, upload_videos = false, save_transcript = false, access_admin_page = false
-) {
+/*
+post JSON:
+{
+  "user_id": 1,
+  "upload_videos": true,
+  "save_transcript": true,
+  "access_admin_page": false
+}
+
+returns permission ID
+*/
+export async function createPermission(user_id, upload_videos = false, save_transcript = false, access_admin_page = false) {
   return request("/permissions", "POST", { user_id, upload_videos, save_transcript, access_admin_page });
 }
 
