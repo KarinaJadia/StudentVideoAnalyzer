@@ -12,25 +12,18 @@ const Home = () => {
 
   return (
     <div id="home-page">
-        <section id="search">
-            <text id="welcome">Learn from a new video!</text>
-            
-            <input type="text" id="link-button" placeholder="Enter a video link!" />
-            
-            <form id="file-button">
-                <input 
-                  type="file" 
-                  hidden 
-                  id="file-upload" 
-                  onChange={handleFileUpload}
-                />
-                <label htmlFor="file-upload" className="custom-file-upload">
-                  Upload a video File!
-                </label>
-            </form>
+      <section id="search">
+        <h2 id="welcome">Learn from a new video!</h2>
+        <div className="home-buttons">
+          <input type="text" id="link-button" placeholder="Enter a video link 🔗" />
+          <input type="text" id="link-button" placeholder="Enter your question 🔍" />  
 
-            <input type="text" id="cta-button" placeholder="Enter your question?" />  
-        </section>
+          <form id="file-button">
+            <input type="file" hidden id="file-upload" onChange={handleFileUpload}/>
+            <label htmlFor="file-upload" className="custom-file-upload">Upload Video File📤</label>
+          </form>
+        </div> 
+      </section>
     </div>
   );
 };

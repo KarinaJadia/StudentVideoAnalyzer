@@ -2,6 +2,14 @@ import React from "react";
 import "./Transcription.css";
 
 export default function Transcription() {
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log('Selected file:', file.name);
+      // Handle the file
+    }
+  };
+
   return (
     <div className="transcription-full">
       
@@ -25,7 +33,10 @@ export default function Transcription() {
               <h3>Drag & Drop your lecture video or transcript here</h3>
               <p>Accepted: MP4, MOV, TXT, PDF • Max 500MB</p>
               <div className="button-row">
-                <button className="upload">Upload File</button>
+                <form id="upload-button">
+                  <input type="file" hidden id="file-upload" onChange={handleFileUpload}/>
+                  <label htmlFor="file-upload" className="upload">Upload Video File📤</label>
+                </form>
                 <button className="generate">Generate Summary</button>
               </div>
             </div>
