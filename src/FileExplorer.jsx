@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./FileExplorer.css";
 
-const ChatHistory = () => {
+const ChatHistory = ({setCurrentPage}) => {
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
@@ -24,9 +24,13 @@ const ChatHistory = () => {
     navigate(`/chat/${chatId}`);
   };
 
+  const handleBackClick = () => {
+    // back button redirects to transcript page
+    setCurrentPage('transcription');
+  };
+
   return (
     <div className="chat-history-container">
-      <button className="back-button">&lt; Back</button>
       <h1 className="chat-title">Chat History</h1>
 
       <div className="chat-list">
@@ -40,6 +44,7 @@ const ChatHistory = () => {
             <span className="chat-date">Last Accessed: {chat.lastAccessed}</span>
           </button>
         ))}
+        <button className="back-button" onClick={() => handleBackClick()} >&lt; Back</button>
       </div>
     </div>
   );

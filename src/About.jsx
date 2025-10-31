@@ -1,11 +1,17 @@
 import React from "react";
+import "./About.css";
 
-const About = () => {
+const About = ({setCurrentPage}) => {
+
+    const handleTryClick = () => {
+    // back button redirects to transcript page
+    setCurrentPage('transcription');
+  };
+
   return (
     <div id="about-page">
+      <section className="about-section" id="future-learning">
       <h1 id="about-title">About Husky Lecture Log</h1>
-
-      <section id="future-of-learning">
         <h2>The Future of Video Learning Starts Now</h2>
         <p>
           In the age of information, hours of essential learning content are trapped inside long videos.
@@ -18,7 +24,8 @@ const About = () => {
         </p>
       </section>
 
-      <section id="instant-content-deconstruction">
+    <div className="side-by-side-container">
+      <section className="about-section" id="content-deconstruction">
         <h3>1. Instant Content Deconstruction</h3>
         <p>
           Simply upload any video file or paste a YouTube URL. Our AI immediately goes to work to process
@@ -36,7 +43,7 @@ const About = () => {
         </ul>
       </section>
 
-      <section id="personal-video-chatbot">
+      <section className="about-section" id="video-chatbot">
         <h3>2. Your Personal Video Chatbot</h3>
         <p>
           Turn every video into a personalized, interactive study session. Our specialized chatbot allows you to
@@ -55,8 +62,8 @@ const About = () => {
         </ul>
       </section>
 
-      <section id="dedicated-space">
-        <h3>A Dedicated Space for Your Learning</h3>
+      <section className="about-section" id="dedicated-space">
+        <h3>3. A Dedicated Space for Your Learning</h3>
         <p>
           We understand that studying is personal and requires continuity. That's why Husky Lecture Log is
           designed to be a persistent, secure digital notebook:
@@ -73,13 +80,13 @@ const About = () => {
           </li>
         </ul>
       </section>
+      </div>
 
       <section id="closing">
         <p>
-          Husky Lecture Log isn't just a summary tool; it's an end-to-end learning partner built to maximize your
-          time and optimize your understanding. Join us and transform the way you interact with video content.
+          Husky Lecture Log: Your complete learning partner — transforming video into instant clarity.
         </p>
-        <button id="cta-button">Try it out today!</button>
+        <button id="cta-button" onClick={() => handleTryClick()}>Try it out today!</button>
       </section>
     </div>
   );

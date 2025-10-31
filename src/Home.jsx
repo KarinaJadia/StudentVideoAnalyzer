@@ -1,50 +1,29 @@
 import React from "react";
 import "./Home.css"
-import { Navbar, Nav, Container } from "react-bootstrap";
-
 
 const Home = () => {
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log('Selected file:', file.name);
+      // Handle the file
+    }
+  };
+
   return (
     <div id="home-page">
+      <section id="search">
+        <h2 id="welcome">Learn from a new video!</h2>
+        <div className="home-buttons">
+          <input type="text" id="link-button" placeholder="Enter a video link 🔗" />
+          <input type="text" id="link-button" placeholder="Enter your question 🔍" />  
 
-        <h1 id="home-title">Husky Lecture Log</h1>
-
-        <Navbar bg="dark" variant="dark" expand="lg" sticky="top" className="custom-navbar">
-            <Container>
-                
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#videos">About HLL</Nav.Link>
-                        <Nav.Link href="#upload">HLL History</Nav.Link>
-                        <Nav.Link href="#about">Login</Nav.Link>
-                        <Nav.Link href="#about">Admin</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
-
-        <h1>  </h1>
-        <h1>  </h1>
-    
-
-        <section id="search">
-            <text id="welcome">Learn from a new video!</text>
-            <h1>  </h1>
-
-            
-            <input type="text" id="link-button" placeholder="Enter a video link!"></input>
-            <h1>  </h1>
-
-            <form id="file-button">
-                <input type="file" hidden id ="file-upload" />
-                <label for="file-upload" class="custom-file-upload">Upload a video File!</label>
-            </form>
-
-            <h1>  </h1>
-
-            <input type="text" id="cta-button" placeholder="Enter your question?"></input>    
-        </section>
+          <form id="file-button">
+            <input type="file" hidden id="file-upload" onChange={handleFileUpload}/>
+            <label htmlFor="file-upload" className="custom-file-upload">Upload Video File📤</label>
+          </form>
+        </div> 
+      </section>
     </div>
   );
 };

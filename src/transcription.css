@@ -1,0 +1,332 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: #fff;
+  color: #0B1020;
+  font-family: 'Poppins', sans-serif;
+}
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+}
+
+div {
+  max-width: none !important;
+}
+
+/* Main container - ensure white background */
+.transcription-full {
+  background: #fff;
+  min-height: 100vh;
+}
+
+
+
+/* Gradient Header */
+.transcription-header {
+  position: relative;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  padding: 80px 24px;
+  text-align: center;
+  background: linear-gradient(90deg, #A5D8FF, #FFD6A5, #A7E3C3, #F9C6D0, #C6A9E0);
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+}
+
+/* Ensure the inner content is centered and constrained */
+.transcription-header .inner {
+  width: min(900px, 92%);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.transcription-header h2 {
+  margin: 0 0 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  color: #000E2F; 
+}
+
+.transcription-header p {
+  margin: 0;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  font-size: clamp(.95rem, 1.1vw, 1.1rem);
+  color: #979797; 
+}
+
+/* Main content centered - ADD WHITE BACKGROUND */
+.transcription-content {
+  width: min(900px, 92%);
+  margin: 40px auto;
+  text-align: center;
+  background: #fff; /* Add this line */
+  position: relative; /* Add this line */
+  z-index: 1; /* Add this line */
+}
+
+
+/* Drag & Drop Box */
+.transcription-drag-drop {
+  background: #f8f9fa;
+  border: 2px dashed #C6A9E0;
+  border-radius: 16px;
+  padding: 60px 40px;
+  margin: 40px 0;
+  text-align: center;
+  position: relative;
+}
+
+.transcription-drag-drop h3 {
+  margin: 0 0 15px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #000000; 
+}
+
+.transcription-drag-drop p {
+  margin: 0 0 40px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #979797; 
+}
+
+.button-row {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload, .generate {
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  
+  /* Floating effect */
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.05);
+  
+  transform: translateY(0);
+  position: relative;
+}
+
+.upload {
+  background: #A5D8FF; 
+  color: #0B1020;
+}
+
+.generate {
+  background: #A7E3C3; 
+  color: #0B1020;
+}
+
+/* Hover floating effect */
+.upload:hover, .generate:hover {
+  transform: translateY(-6px);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Active/pressed effect */
+.upload:active, .generate:active {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.15),
+    0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.upload:focus, .generate:focus {
+  outline: none;
+}
+
+/* AI Summary Box */
+.transcription-ai-summary {
+  background: rgba(255, 214, 165, 0.45); 
+  border: 2px solid #FFD6A5; 
+  border-radius: 16px;
+  padding: 40px;
+  margin: 40px 0;
+  position: relative;
+  backdrop-filter: blur(10px); 
+}
+
+.transcription-ai-summary h3 {
+  margin: 0 0 25px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #000000; 
+  text-align: center;
+}
+
+.transcription-ai-summary ul {
+  margin: 0 0 30px;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.transcription-ai-summary li {
+  margin-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #000000; 
+  text-align: left;
+}
+
+.download {
+  background: #FFD6A5; 
+  color: #0B1020;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  
+  /* Floating effect */
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.05);
+  
+  transform: translateY(0);
+  position: relative;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Hover floating effect */
+.download:hover {
+  transform: translateY(-6px);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Active/pressed effect */
+.download:active {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 5px 15px rgba(0, 0, 0, 0.15),
+    0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.download:focus {
+  outline: none;
+}
+
+/* Ask Muffin Box */
+.transcription-ask-muffin {
+  background: rgba(165, 216, 255, 0.45); 
+  border: 2px solid #A5D8FF;
+  border-radius: 16px;
+  padding: 40px;
+  margin: 40px 0;
+  position: relative;
+  backdrop-filter: blur(10px); 
+}
+
+.transcription-ask-muffin h3 {
+  margin: 0 0 25px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #000000; 
+  text-align: center;
+}
+
+.transcription-ask-muffin input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #A5D8FF; 
+  border-radius: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #000000; 
+  background: rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+  outline: none;
+  
+  /* Floating effect */
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.transcription-ask-muffin input::placeholder {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #979797; 
+}
+
+.transcription-ask-muffin input:focus {
+  outline: none;
+  transform: translateY(-4px);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.footer {
+  background: #001233;
+  color: #fff;
+  text-align: center;
+  padding: 16px 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  width: 100%;
+  position: relative;
+  margin-top: auto;
+}
+
+ .footer {
+  position: relative;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+}
