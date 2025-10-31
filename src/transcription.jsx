@@ -60,7 +60,9 @@ export default function Transcription() {
           </div>
         </div>
       </div>
-
+      <footer className="footer">
+          <p>© 2025 Student Video Analyzer</p>
+        </footer>
     </div>
   );
 }
