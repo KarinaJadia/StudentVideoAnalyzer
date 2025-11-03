@@ -24,10 +24,10 @@ export async function connectDB(password) {
 /*
 post JSON:
 {
-  "first_name": "Test0",
-  "last_name": "User0",
-  "username": "testuser0",
-  "password_sha256": "e3afed0047b08059d0fada10f400c1e50                               "
+  "first_name": "string",
+  "last_name": "string",
+  "username": "string",
+  "password_sha256": "string"
 }
 
 returns user ID
@@ -59,9 +59,9 @@ export async function getChat(chat_id) {
 /*
 post JSON:
 {
-  "chat_id": 2,
-  "role": "ai",
-  "content": "hello i am the ai"
+  "chat_id": int,
+  "role": "string" (ai or user),
+  "content": "string"
 }
 
 returns message id
@@ -77,10 +77,10 @@ export async function getChatLogs(chat_id) {
 /*
 post JSON:
 {
-  "user_id": 1,
-  "upload_videos": true,
-  "save_transcript": true,
-  "access_admin_page": false
+  "user_id": int,
+  "upload_videos": boolean,
+  "save_transcript": boolean,
+  "access_admin_page": boolean
 }
 
 returns permission ID
