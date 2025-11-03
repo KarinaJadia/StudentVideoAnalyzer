@@ -64,7 +64,7 @@ function App() {
       {renderCurrentPage()}
       
       {/* Only show footer if NOT login page */}
-      {currentPage !== 'login' && (
+      {currentPage !== 'login' && currentPage !== 'transcription' && (
         <footer className="footer">
           <p>© 2025 Student Video Analyzer</p>
         </footer>
