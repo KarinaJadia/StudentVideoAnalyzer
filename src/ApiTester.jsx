@@ -134,7 +134,7 @@ function ApiTester() {
           onChange={(e) => setBodyText(e.target.value)}
           rows={6}
           cols={60}
-          placeholder='example: {"first_name": "Karina", "last_name": "Jadia", "username": "karina123", "password_sha256": "abc123"}'
+          placeholder='example: {"first_name": "Test", "last_name": "User", "username": "test_user", "password_sha256": "abc123"}'
         />
       </div>
 

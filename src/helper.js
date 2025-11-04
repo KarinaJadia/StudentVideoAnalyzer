@@ -13,9 +13,9 @@
       if (action === 'createUser' && (!bodyText || !bodyText.trim())) {
         setBodyText(
           JSON.stringify({
-            first_name: 'Karina',
-            last_name: 'Jadia',
-            username: 'karina123',
+            first_name: 'Test',
+            last_name: 'User',
+            username: 'test_user',
             password_sha256: hex,
           }, null, 2)
         );
