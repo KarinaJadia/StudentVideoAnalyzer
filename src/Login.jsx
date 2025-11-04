@@ -34,7 +34,7 @@ export default function Login({ onLoginSuccess }) {
         localStorage.removeItem("rememberedUsername");
       }
 
-      onLoginSuccess?.(res);
+    onLoginSuccess?.(res.user_id);
     } catch (err) {
       alert("Invalid username or password");
       console.error(" Login error:", err);

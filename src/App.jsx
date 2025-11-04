@@ -12,6 +12,7 @@ import { connectDB } from "./apis";
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
+  const [userId, setUserId] = useState(localStorage.getItem("user_id")); // USER ID SUPER IMPORTANT
 
   useEffect(() => {
     connectDB("studentanalyzer") // password!!!
@@ -19,7 +20,9 @@ function App() {
       .catch((err) => console.error("DB connection failed:", err));
   }, []);
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = (id) => {
+    setUserId(id);
+    console.log(id);
     setCurrentPage('Home');
   }
 
