@@ -53,7 +53,7 @@ class User(BaseModel):
     first_name: str
     last_name: str
     username: str
-    password_sha256: str
+    password: str
 
 class Chat(BaseModel):
     user_id: int
@@ -78,11 +78,12 @@ class LoginRequest(BaseModel):
 @app.post("/users")
 def create_user(user: User):
     require_db_connection()
+    hashed = sha256(user.password.encode()).hexdigest()
     try:
         cursor.execute("""
             INSERT INTO users (first_name, last_name, username, password_sha256)
             VALUES (%s, %s, %s, %s) RETURNING user_id
-        """, (user.first_name, user.last_name, user.username, user.password_sha256))
+        """, (user.first_name, user.last_name, user.username, hashed))
         conn.commit()
         return {"user_id": cursor.fetchone()["user_id"]}
     except psycopg2.Error as e:
