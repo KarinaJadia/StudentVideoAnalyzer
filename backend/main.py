@@ -176,10 +176,9 @@ def get_permission(user_id: int):
 def login(req: LoginRequest):
     require_db_connection()
 
-    # hashed_pw = sha256(req.password.encode()).hexdigest() todo: uncomment out
-    hashed_pw = req.password
+    req.password = sha256(req.password.encode()).hexdigest() # todo: uncomment out
 
-    cursor.execute("SELECT * FROM users WHERE username = %s AND password_sha256 = %s", (req.username, hashed_pw))
+    cursor.execute("SELECT * FROM users WHERE username = %s AND password_sha256 = %s", (req.username, req.password))
     user = cursor.fetchone()
 
     if not user:
