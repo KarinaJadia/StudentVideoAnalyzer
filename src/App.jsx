@@ -14,7 +14,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState('login');
 
   useEffect(() => {
-    connectDB("studentanalyzer")
+    connectDB("studentanalyzer") // password!!!
       .then(() => console.log("DB connected"))
       .catch((err) => console.error("DB connection failed:", err));
   }, []);
