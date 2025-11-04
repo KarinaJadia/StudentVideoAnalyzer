@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 import Login from './Login';
@@ -8,9 +8,16 @@ import FileExplorer from './FileExplorer';
 import Home from './Home';
 import Transcription from './transcription';
 import ApiTester from "./ApiTester";
+import { connectDB } from "./apis";
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
+
+  useEffect(() => {
+    connectDB("studentanalyzer")
+      .then(() => console.log("DB connected"))
+      .catch((err) => console.error("DB connection failed:", err));
+  }, []);
 
   const handleLoginSuccess = () => {
     setCurrentPage('Home');

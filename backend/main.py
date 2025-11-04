@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from hashlib import sha256
 import uvicorn
 
 app = FastAPI()
@@ -69,6 +70,10 @@ class Permission(BaseModel):
     upload_videos: bool = False
     save_transcript: bool = False
     access_admin_page: bool = False
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
 
 @app.post("/users")
 def create_user(user: User):
@@ -165,6 +170,21 @@ def get_permission(user_id: int):
     if not perm:
         raise HTTPException(status_code=404, detail="Permission not found")
     return perm
+
+@app.post("/login")
+def login(req: LoginRequest):
+    require_db_connection()
+
+    # hashed_pw = sha256(req.password.encode()).hexdigest() todo: uncomment out
+    hashed_pw = req.password
+
+    cursor.execute("SELECT * FROM users WHERE username = %s AND password_sha256 = %s", (req.username, hashed_pw))
+    user = cursor.fetchone()
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid username or password")
+
+    return {"user_id": user["user_id"], "first_name": user["first_name"], "last_name": user["last_name"]}
 
 def main():
     print("backend server at http://127.0.0.1:8000")
