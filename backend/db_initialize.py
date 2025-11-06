@@ -4,6 +4,7 @@
 # database: https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#database:id=studentanalyzer-db
 
 import psycopg2
+import random
 
 password = input('password: ')
 
@@ -68,10 +69,10 @@ conn.commit()
 
 # fake chats
 messages = [
-    {"chat_id": 0, "role": "user", "content": "message from user!"},
-    {"chat_id": 0, "role": "ai", "content": "response from ai!"},
-    {"chat_id": 0, "role": "user", "content": "second message from user!"},
-    {"chat_id": 0, "role": "ai", "content": "final ai response!"}
+    {"chat_id": 1, "role": "user", "content": "message from user!"},
+    {"chat_id": 1, "role": "ai", "content": "response from ai!"},
+    {"chat_id": 1, "role": "user", "content": "second message from user!"},
+    {"chat_id": 1, "role": "ai", "content": "final ai response!"}
 ]
 
 insert_query = """
@@ -83,22 +84,22 @@ for message in messages:
     cursor.execute(insert_query, message)
 conn.commit()
 
-# fake users
+# fake permissions
 for i in range(0, 3):
 
-    user_data = {
-        "first_name": f"FirstName{i}",
-        "last_name": f"LastName{i}",
-        "username": f"testuser{i}",
-        "password_sha256": f"testuser{i}"
+    perm_data = {
+        "user_id": i,
+        "upload_videos": random.choice([True, False]),
+        "save_transcript": random.choice([True, False]),
+        "access_admin_page": random.choice([True, False])
     }
 
     insert_query = """
-    INSERT INTO users (first_name, last_name, username, password_sha256)
-    VALUES (%(first_name)s, %(last_name)s, %(username)s, %(password_sha256)s)
+    INSERT INTO permissions (user_id, upload_videos, save_transcript, access_admin_page)
+    VALUES (%(user_id)s, %(upload_videos)s, %(save_transcript)s, %(access_admin_page)s)
     """
 
-    cursor.execute(insert_query, user_data)
+    cursor.execute(insert_query, perm_data)
 conn.commit()
 
 cursor.close()
