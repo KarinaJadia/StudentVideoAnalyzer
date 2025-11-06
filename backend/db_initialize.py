@@ -55,7 +55,7 @@ for i in range(0, 6):
 
     chat_data = {
         "user_id": i%3+1,
-        "chat_title": f"Title {i} for User {i%3}",
+        "chat_title": f"Title {i+1} for User {i%3+1}",
         "video_transcript": "This is where the AI video transcript would be stored"
     }
 
