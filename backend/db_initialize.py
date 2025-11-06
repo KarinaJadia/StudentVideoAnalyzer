@@ -33,7 +33,7 @@ print("tables created")
 print('inserting test data')
 
 # fake users
-for i in range(0, 3):
+for i in range(1, 4):
 
     user_data = {
         "first_name": f"FirstName{i}",
@@ -54,7 +54,7 @@ conn.commit()
 for i in range(0, 6):
 
     chat_data = {
-        "user_id": i%3,
+        "user_id": i%3+1,
         "chat_title": f"Title {i} for User {i%3}",
         "video_transcript": "This is where the AI video transcript would be stored"
     }
@@ -88,7 +88,7 @@ conn.commit()
 for i in range(0, 3):
 
     perm_data = {
-        "user_id": i,
+        "user_id": i+1,
         "upload_videos": random.choice([True, False]),
         "save_transcript": random.choice([True, False]),
         "access_admin_page": random.choice([True, False])
