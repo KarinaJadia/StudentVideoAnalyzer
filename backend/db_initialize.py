@@ -25,12 +25,13 @@ with open("tables.sql") as f:
     for stmt in statements:
         if stmt.strip():
             cursor.execute(stmt)
-
+conn.commit()
 
 print("tables created")
 
 print('inserting test data')
 
+# fake users
 for i in range(0, 3):
 
     user_data = {
@@ -46,7 +47,42 @@ for i in range(0, 3):
     """
 
     cursor.execute(insert_query, user_data)
+    conn.commit()
+
+# fake chat titles
+for i in range(0, 6):
+
+    chat_data = {
+        "user_id": i%3,
+        "chat_title": f"Title {i} for User {i%3}",
+        "video_transcript": "This is where the AI video transcript would be stored"
+    }
+
+    insert_query = """
+    INSERT INTO chats_list (user_id, chat_title, video_transcript)
+    VALUES (%(user_id)s, %(chat_title)s, %(video_transcript)s)
+    """
+
+    cursor.execute(insert_query, chat_data)
+    conn.commit()
+
+# fake chats
+messages = [
+    {"chat_id": 0, "role": "user", "content": "message from user!"},
+    {"chat_id": 0, "role": "ai", "content": "response from ai!"},
+    {"chat_id": 0, "role": "user", "content": "second message from user!"},
+    {"chat_id": 0, "role": "ai", "content": "final ai response!"}
+]
+
+insert_query = """
+INSERT INTO chat_log (chat_id, role, content)
+VALUES (%(chat_id)s, %(role)s, %(content)s)
+"""
+
+for message in messages:
+    cursor.execute(insert_query, message)
 
 conn.commit()
+
 cursor.close()
 conn.close()
