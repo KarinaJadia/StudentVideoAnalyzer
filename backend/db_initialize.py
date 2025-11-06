@@ -34,10 +34,10 @@ print('inserting test data')
 for i in range(0, 3):
 
     user_data = {
-        "first_name": f"Test{i}",
-        "last_name": f"User{i}",
+        "first_name": f"FirstName{i}",
+        "last_name": f"LastName{i}",
         "username": f"testuser{i}",
-        "password_sha256": f"e3afed0047b08059d0fada10f400c1e5{i}"  # example hash
+        "password_sha256": f"testuser{i}"
     }
 
     insert_query = """
