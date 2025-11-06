@@ -5,6 +5,7 @@
 
 import psycopg2
 import random
+from hashlib import sha256
 
 password = input('password: ')
 
@@ -35,11 +36,13 @@ print('inserting test data')
 # fake users
 for i in range(1, 4):
 
+    hashed_password = sha256(f"testuser{i}".encode()).hexdigest()
+
     user_data = {
         "first_name": f"FirstName{i}",
         "last_name": f"LastName{i}",
         "username": f"testuser{i}",
-        "password_sha256": f"testuser{i}"
+        "password_sha256": hashed_password
     }
 
     insert_query = """
