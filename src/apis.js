@@ -92,3 +92,7 @@ export async function createPermission(user_id, upload_videos = false, save_tran
 export async function getPermission(user_id) {
   return request(`/permissions/${user_id}`, "GET");
 }
+
+export async function login(username, password) {
+  return request("/login", "POST", { username, password });
+}

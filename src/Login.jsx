@@ -1,30 +1,22 @@
 import React, { useState, useEffect } from "react";
 import "./Login.css";
+import { login } from "./apis";
 
 export default function Login({ onLoginSuccess }) {
-  const [username, setusername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const validUsers = [
-    { username: "test", password: "password123" },
-    { username: "student", password: "husky123" },
-    { username: "professor", password: "teach2024" },
-    { username: "admin", password: "admin123" },
-    { username: "user", password: "demo123" },
-    { username: "puppycat", password: "puppycat1234" }
-  ];
-
   useEffect(() => {
-    const savedusername = localStorage.getItem("rememberedusername");
-    if (savedusername) {
-      setusername(savedusername);
+    const savedUsername = localStorage.getItem("rememberedUsername");
+    if (savedUsername) {
+      setUsername(savedUsername);
       setRememberMe(true);
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) {
       alert("Please fill in both username and password");
@@ -32,25 +24,23 @@ export default function Login({ onLoginSuccess }) {
     }
 
     setIsLoading(true);
+    try {
+      const res = await login(username, password);
+      console.log("✅ Logged in user:", res);
 
-    setTimeout(() => {
-      const userExists = validUsers.find(
-        (user) => user.username === username && user.password === password
-      );
-
-      if (userExists) {
-        if (rememberMe) {
-          localStorage.setItem("rememberedusername", username);
-        } else {
-          localStorage.removeItem("rememberedusername");
-        } 
-        onLoginSuccess?.();
+      if (rememberMe) {
+        localStorage.setItem("rememberedUsername", username);
       } else {
-        alert("Invalid username or password.");
+        localStorage.removeItem("rememberedUsername");
       }
 
+    onLoginSuccess?.(res.user_id);
+    } catch (err) {
+      alert("Invalid username or password");
+      console.error(" Login error:", err);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -64,10 +54,10 @@ export default function Login({ onLoginSuccess }) {
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="input-group">
             <input
-              type="username"
-              placeholder="username"
+              type="text"
+              placeholder="Username"
               value={username}
-              onChange={(e) => setusername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               disabled={isLoading}
             />
           </div>
