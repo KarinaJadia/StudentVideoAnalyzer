@@ -47,7 +47,7 @@ for i in range(0, 3):
     """
 
     cursor.execute(insert_query, user_data)
-    conn.commit()
+conn.commit()
 
 # fake chat titles
 for i in range(0, 6):
@@ -64,7 +64,7 @@ for i in range(0, 6):
     """
 
     cursor.execute(insert_query, chat_data)
-    conn.commit()
+conn.commit()
 
 # fake chats
 messages = [
@@ -81,7 +81,24 @@ VALUES (%(chat_id)s, %(role)s, %(content)s)
 
 for message in messages:
     cursor.execute(insert_query, message)
+conn.commit()
 
+# fake users
+for i in range(0, 3):
+
+    user_data = {
+        "first_name": f"FirstName{i}",
+        "last_name": f"LastName{i}",
+        "username": f"testuser{i}",
+        "password_sha256": f"testuser{i}"
+    }
+
+    insert_query = """
+    INSERT INTO users (first_name, last_name, username, password_sha256)
+    VALUES (%(first_name)s, %(last_name)s, %(username)s, %(password_sha256)s)
+    """
+
+    cursor.execute(insert_query, user_data)
 conn.commit()
 
 cursor.close()
