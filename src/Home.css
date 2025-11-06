@@ -1,60 +1,163 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
-#welcome{
-  color: rgb(18, 4, 122);
-  font-size: 24px;
-  border: purple !important;
-  border-color: purple !important;
-    
+/* HEADER */
+#welcome {
+  position: relative;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  padding: 60px 24px;
+  text-align: center;
+  background: linear-gradient(120deg, #A5D8FF, #FFD6A5, #A7E3C3, #F9C6D0, #C6A9E0);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
 }
 
-#link-button{
-  background-color: #a4c8e1;      /* Primary blue */  color: rgb(255, 255, 255);                   /* Text color */
-  padding: 10px 20px;             /* Space inside */
-  border: none;                   /* Remove default border */
-  border-radius: 8px;             /* Rounded corners */
-  font-size: 20px;                /* Text size */
-  cursor: pointer;      
-  justify-content: center; 
-  text-align: center;   /* Centers text horizontally */
-  vertical-align: middle;
-}
-
-.custom-file-upload {
-  display: inline-block;
-  background-color: #a4c8e1;      /* Primary blue */
-  color: rgb(255, 255, 255);                   /* Text color */
-  padding: 10px 20px;             /* Space inside */
-  border: none;                   /* Remove default border */
-  border-radius: 8px;             /* Rounded corners */
-  font-size: 20px;                /* Text size */
-  cursor: pointer;      
-  justify-content: center; 
-}
-
-#cta-button{
-  background-color: #a4c8e1;      /* Primary blue */
-  color: rgb(255, 255, 255);                   /* Text color */
-  padding: 10px 20px;             /* Space inside */
-  border: none;                   /* Remove default border */
-  border-radius: 8px;             /* Rounded corners */
-  font-size: 20px;                /* Text size */
-  cursor: pointer;      
-  justify-content: center; 
-  text-align: center;   /* Centers text horizontally */
-  vertical-align: middle;
-}
-
-::placeholder{
-  color : rgb(255, 255, 255);
-}
-
-/* original css above*/
-/* stuff below is to fix wonky page buttons*/
+/* HOME PAGE WRAPPER */
 .home-buttons {
   display: flex;
   flex-direction: column;
   gap: 25px;
   width: 100%;
   align-items: center;
+  padding: 50px;
 }
+
+/* UPLOAD CARD */
+.upload-card {
+  width: min(900px, 92%);
+  background: #f8f9fa;
+  margin: 40px auto 0;
+  padding: 40px 30px;
+  border: 2px dashed #C6A9E0;        /* dashed outline style */
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .08); /* subtle depth */
+  text-align: center;
+}
+
+/* Upload card title */
+.upload-title {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #000E2F;
+  margin-bottom: 1.8rem;
+}
+
+/* Two-column layout for link + upload */
+.upload-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+/* Shared styles for both boxes */
+.link_box,
+.custom-file-upload {
+  min-height: 150px;
+  border-radius: 16px;
+  padding: 2rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #000E2F;
+  background: rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
+  text-align: center;
+  outline: none;
+}
+
+
+
+/* Peach box: Enter a video link */
+.link_box {
+  border: 2px solid #FFD6A5;                     
+  background: rgba(255, 214, 165, 0.35);         
+  box-shadow: 0 4px 12px rgba(255, 214, 165, 0.25);
+  color: #000E2F;
+  transition: all 0.3s ease;
+}
+
+.link_box::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Lavender box: Upload video file */
+.custom-file-upload {
+  border: 2px solid #C6A9E0;                     
+  background: rgba(198, 169, 224, 0.35);         
+  box-shadow: 0 4px 12px rgba(198, 169, 224, 0.25);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #000E2F;
+  transition: all 0.3s ease;
+}
+
+
+
+/* Hover effect */
+.link_box:focus,
+.custom-file-upload:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.1),
+    0 4px 10px rgba(0, 0, 0, 0.05);
+  opacity: 0.95;
+}
+
+/* ASK MUFFIN BOX */
+.prompt-container {
+  background: #E8F4FF;               /* light blue */
+  border: 2px solid #A5D8FF;        /* dashed outline */
+  border-radius: 16px;
+  padding: 40px 30px;
+  width: min(900px, 92%);
+  margin: 40px auto 0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+  text-align: center;
+}
+
+/* Ask Muffin Title */
+.prompt-title {
+  margin: 0 0 25px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #000;
+  text-align: center;
+}
+
+/* Input Field */
+.prompt_box {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #A5D8FF;
+  border-radius: 12px;
+  background: #fff;
+  color: #000;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, .06);
+  transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+.prompt_box::placeholder {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #979797;
+}
+
+.prompt_box:focus {
+  border-color: #6EC1FF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .10);
+}
+
+
