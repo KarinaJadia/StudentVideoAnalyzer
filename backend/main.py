@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from hashlib import sha256
 import uvicorn
 
 app = FastAPI()
@@ -52,7 +53,7 @@ class User(BaseModel):
     first_name: str
     last_name: str
     username: str
-    password_sha256: str
+    password: str
 
 class Chat(BaseModel):
     user_id: int
@@ -70,14 +71,19 @@ class Permission(BaseModel):
     save_transcript: bool = False
     access_admin_page: bool = False
 
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
 @app.post("/users")
 def create_user(user: User):
     require_db_connection()
+    hashed = sha256(user.password.encode()).hexdigest()
     try:
         cursor.execute("""
             INSERT INTO users (first_name, last_name, username, password_sha256)
             VALUES (%s, %s, %s, %s) RETURNING user_id
-        """, (user.first_name, user.last_name, user.username, user.password_sha256))
+        """, (user.first_name, user.last_name, user.username, hashed))
         conn.commit()
         return {"user_id": cursor.fetchone()["user_id"]}
     except psycopg2.Error as e:
@@ -165,6 +171,20 @@ def get_permission(user_id: int):
     if not perm:
         raise HTTPException(status_code=404, detail="Permission not found")
     return perm
+
+@app.post("/login")
+def login(req: LoginRequest):
+    require_db_connection()
+
+    req.password = sha256(req.password.encode()).hexdigest() # todo: uncomment out
+
+    cursor.execute("SELECT * FROM users WHERE username = %s AND password_sha256 = %s", (req.username, req.password))
+    user = cursor.fetchone()
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid username or password")
+
+    return {"user_id": user["user_id"], "first_name": user["first_name"], "last_name": user["last_name"]}
 
 def main():
     print("backend server at http://127.0.0.1:8000")
