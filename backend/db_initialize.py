@@ -4,6 +4,8 @@
 # database: https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#database:id=studentanalyzer-db
 
 import psycopg2
+import random
+from hashlib import sha256
 
 password = input('password: ')
 
@@ -25,19 +27,22 @@ with open("tables.sql") as f:
     for stmt in statements:
         if stmt.strip():
             cursor.execute(stmt)
-
+conn.commit()
 
 print("tables created")
 
 print('inserting test data')
 
-for i in range(0, 3):
+# fake users
+for i in range(1, 4):
+
+    hashed_password = sha256(f"testuser{i}".encode()).hexdigest()
 
     user_data = {
-        "first_name": f"Test{i}",
-        "last_name": f"User{i}",
+        "first_name": f"FirstName{i}",
+        "last_name": f"LastName{i}",
         "username": f"testuser{i}",
-        "password_sha256": f"e3afed0047b08059d0fada10f400c1e5{i}"  # example hash
+        "password_sha256": hashed_password
     }
 
     insert_query = """
@@ -46,7 +51,59 @@ for i in range(0, 3):
     """
 
     cursor.execute(insert_query, user_data)
-
 conn.commit()
+
+# fake chat titles
+for i in range(0, 6):
+
+    chat_data = {
+        "user_id": i%3+1,
+        "chat_title": f"Title {i+1} for User {i%3+1}",
+        "video_transcript": "This is where the AI video transcript would be stored"
+    }
+
+    insert_query = """
+    INSERT INTO chats_list (user_id, chat_title, video_transcript)
+    VALUES (%(user_id)s, %(chat_title)s, %(video_transcript)s)
+    """
+
+    cursor.execute(insert_query, chat_data)
+conn.commit()
+
+# fake chats
+messages = [
+    {"chat_id": 1, "role": "user", "content": "message from user!"},
+    {"chat_id": 1, "role": "ai", "content": "response from ai!"},
+    {"chat_id": 1, "role": "user", "content": "second message from user!"},
+    {"chat_id": 1, "role": "ai", "content": "final ai response!"}
+]
+
+insert_query = """
+INSERT INTO chat_log (chat_id, role, content)
+VALUES (%(chat_id)s, %(role)s, %(content)s)
+"""
+
+for message in messages:
+    cursor.execute(insert_query, message)
+conn.commit()
+
+# fake permissions
+for i in range(0, 3):
+
+    perm_data = {
+        "user_id": i+1,
+        "upload_videos": random.choice([True, False]),
+        "save_transcript": random.choice([True, False]),
+        "access_admin_page": random.choice([True, False])
+    }
+
+    insert_query = """
+    INSERT INTO permissions (user_id, upload_videos, save_transcript, access_admin_page)
+    VALUES (%(user_id)s, %(upload_videos)s, %(save_transcript)s, %(access_admin_page)s)
+    """
+
+    cursor.execute(insert_query, perm_data)
+conn.commit()
+
 cursor.close()
 conn.close()
