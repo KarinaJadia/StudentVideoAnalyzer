@@ -1,14 +1,33 @@
 import React from "react";
+import { useState } from "react";
+
+
 import "./Home.css";
 
 const Home = () => {
+  const [videoLink, setVideoLink] = useState("");
+  const [videoFile, setVideoFile] = useState(null);
+  const [question, setQuestion] = useState("");
+  
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    if (file) {
-      console.log("Selected file:", file.name);
-      // Handle the file
+    setVideoFile(file); 
+    console.log(file);
+  }
+
+  const handleFileLink = (event) => {
+    if (event.key === "Enter") {
+      setVideoLink(event.target.value);
+      console.log(event.target.value);
     }
-  };
+  }
+
+  const handleQuestion = (event) => {
+    if (event.key === "Enter") {
+      setQuestion(event.target.value);
+      console.log(event.target.value);
+    }
+  }
 
   return (
     <div id="home-page">
@@ -25,6 +44,7 @@ const Home = () => {
                 type="text"
                 className="link_box"
                 placeholder="Enter a video link "
+                onKeyDown={handleFileLink}
               />
 
 
@@ -49,6 +69,7 @@ const Home = () => {
               type="text"
               className="prompt_box"
               placeholder="Ask Anything "
+              onKeyDown={handleQuestion}
             />
           </div>
         </div>
