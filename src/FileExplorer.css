@@ -1,42 +1,113 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
-.chat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    background: none;
-    border: none;
-    padding: 12px 16px;
-    cursor: pointer;
-    text-align: left;
-    gap: 55px;
-    transition: background-color 0.2s ease;
-}
-
-.chat-item:hover {
-    background-color: #d1d1d1;
+/* Base font setup */
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  background: none;
 }
 
 .chat-title {
-    color: #000000;
+  font-family: 'IBM Plex Sans', sans-serif;
+  position: relative;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  padding: 50px 24px; /* smaller height (was 80–100px before) */
+  text-align: center;
+  background: linear-gradient(90deg, #A5D8FF, #FFD6A5, #A7E3C3, #F9C6D0, #C6A9E0);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #000000;
+  margin-bottom: 5px;
 }
 
+
+
+/* Chat item container */
+.chat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  text-align: left;
+  gap: 55px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: 'Poppins', sans-serif; /* applied font for chat list items */
+}
+
+.chat-item:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(198, 169, 224, 0.5),  /* lavender */
+    rgba(249, 198, 208, 0.5),  /* pink */
+    rgba(167, 227, 195, 0.5),  /* mint */
+    rgba(255, 214, 165, 0.5),  /* peach */
+    rgba(165, 216, 255, 0.5)   /* blue */
+  );
+  transform: translateY(-2px);
+  transition: background 0.5s ease, transform 0.2s ease;
+}
+
+
+
 .chat-name {
-    font-weight: 500;
-    color: #000000;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #000000;
+  font-size: 0.95rem;
 }
 
 .chat-date {
-    color: #666;
-    font-size: 0.9rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: #666;
+  font-size: 0.85rem;
 }
 
 .back-button {
-    color: #000000;
-    background-color: pink;
+  font-family: 'Poppins', sans-serif;
+  color: #000000;
+  background-color: rgb(255, 182, 193); /* soft pink base */
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
+/* Hover effect — same as CTA button style */
 .back-button:hover {
-    background-color: rgb(255, 120, 143);
-    transform: translateY(-3px);    
+  background-color: rgb(255, 120, 143); /* stronger pink/red tone */
+  transform: translateY(-6px);
+  box-shadow:
+    0 15px 35px rgba(255, 120, 143, 0.3),
+    0 8px 20px rgba(255, 120, 143, 0.2),
+    0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0.95;
 }
+
+.back-button:active {
+  transform: translateY(-2px);
+}
+
+
+.back-button:focus {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(255, 120, 143, 0.4),
+    0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
