@@ -11,7 +11,7 @@ import ApiTester from "./ApiTester";
 import { connectDB } from "./apis";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('login');
+  const [currentPage, setCurrentPage] = useState('Home');
   const [userId, setUserId] = useState(localStorage.getItem("user_id")); // USER ID SUPER IMPORTANT
 
   useEffect(() => {
