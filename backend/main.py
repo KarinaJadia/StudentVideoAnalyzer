@@ -140,17 +140,13 @@ def create_chat(chat: Chat):
 @app.post("/upload_video")
 async def upload_video(file: UploadFile = File(...), chat_id: int = None):
     require_db_connection()
-
     if chat_id is None:
         raise HTTPException(status_code=400, detail="chat_id is required")
-
     allowed_types = ["video/mp4", "video/mov", "video/quicktime"]
     if file.content_type not in allowed_types:
         raise HTTPException(status_code=400, detail="Invalid video format")
-
     file_extension = file.filename.split(".")[-1]
     s3_key = f"videos/{uuid.uuid4()}.{file_extension}"
-
     try:
         s3.upload_fileobj(
             file.file,
@@ -158,19 +154,24 @@ async def upload_video(file: UploadFile = File(...), chat_id: int = None):
             s3_key,
             ExtraArgs={"ContentType": file.content_type}
         )
-
         video_url = f"https://studentanalyzer-bucket.s3.amazonaws.com/{s3_key}"
-
         cursor.execute(
             "UPDATE chats_list SET video_url = %s WHERE chat_id = %s",
             (video_url, chat_id)
         )
         conn.commit()
-
         return {"status": "uploaded", "video_url": video_url}
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"S3 upload failed: {e}")
+    
+@app.get("/view_video/{chat_id}")
+def view_video(chat_id: int):
+    require_db_connection()
+    cursor.execute("SELECT video_url FROM chats_list WHERE chat_id = %s", (chat_id,))
+    result = cursor.fetchone()
+    if not result or not result.get("video_url"):
+        raise HTTPException(status_code=404, detail="Video not found for this chat")
+    return {"chat_id": chat_id, "video_url": result["video_url"]}
 
 @app.get("/chats/{chat_id}")
 def get_chat(chat_id: int):
