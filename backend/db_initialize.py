@@ -2,6 +2,7 @@
 # do not run unless you want to RESET the database and DELETE ALL DATA
 
 # database: https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#database:id=studentanalyzer-db
+# bucket: https://us-east-1.console.aws.amazon.com/s3/buckets?region=us-east-1
 
 import psycopg2
 import random
