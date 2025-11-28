@@ -8,14 +8,14 @@ import FileExplorer from './FileExplorer';
 import Home from './Home';
 import Transcription from './transcription';
 import ApiTester from "./ApiTester";
-import { connectDB } from "./apis";
+import * as api from "./apis";
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
   const [userId, setUserId] = useState(localStorage.getItem("user_id")); // USER ID SUPER IMPORTANT
 
   useEffect(() => {
-    connectDB("studentanalyzer") // password!!!
+    api.connectDB("studentanalyzer") // password!!!
       .then(() => console.log("DB connected"))
       .catch((err) => console.error("DB connection failed:", err));
   }, []);
