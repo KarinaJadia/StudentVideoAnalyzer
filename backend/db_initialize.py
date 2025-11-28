@@ -71,6 +71,20 @@ for i in range(0, 6):
     cursor.execute(insert_query, chat_data)
 conn.commit()
 
+test_vid_url = 'https://studentanalyzer-bucket.s3.us-east-1.amazonaws.com/individual+project.mov'
+chat_data = {
+    "user_id": 1,
+    "chat_title": "Test Video",
+    "video_url": test_vid_url
+}
+
+insert_query = """
+INSERT INTO chats_list (user_id, chat_title, video_transcript)
+VALUES (%(user_id)s, %(chat_title)s, %(video_url)s)
+"""
+cursor.execute(insert_query, chat_data)
+conn.commit()
+
 # fake chats
 messages = [
     {"chat_id": 1, "role": "user", "content": "message from user!"},
