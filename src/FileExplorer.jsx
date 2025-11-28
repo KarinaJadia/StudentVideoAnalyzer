@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./FileExplorer.css";
 
-const ChatHistory = ({setCurrentPage}) => {
+const FileExplorer = ({setCurrentPage, userId}) => {
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
@@ -50,4 +50,4 @@ const ChatHistory = ({setCurrentPage}) => {
   );
 };
 
-export default ChatHistory;
+export default FileExplorer;

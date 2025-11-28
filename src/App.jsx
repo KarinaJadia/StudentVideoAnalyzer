@@ -37,13 +37,13 @@ function App() {
     } else if (currentPage === 'Home') {
       return <Home setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'transcription') {
-      return <Transcription setCurrentPage={setCurrentPage} />;
+      return <Transcription setCurrentPage={setCurrentPage} userId={userId}/>;
     } else if (currentPage === 'FileExplorer') {
-      return <FileExplorer setCurrentPage={setCurrentPage} />;
+      return <FileExplorer setCurrentPage={setCurrentPage} userId={userId}/>;
     } else if (currentPage === 'About') {
       return <About setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'Admin') {
-      return <Admin setCurrentPage={setCurrentPage} />;
+      return <Admin setCurrentPage={setCurrentPage} userId={userId}/>;
     }else if (currentPage === 'API Tester') {
       return <ApiTester setCurrentPage={setCurrentPage} />;
     } else {
