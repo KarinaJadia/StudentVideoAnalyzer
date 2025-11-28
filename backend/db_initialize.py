@@ -79,7 +79,7 @@ chat_data = {
 }
 
 insert_query = """
-INSERT INTO chats_list (user_id, chat_title, video_transcript)
+INSERT INTO chats_list (user_id, chat_title, video_url)
 VALUES (%(user_id)s, %(chat_title)s, %(video_url)s)
 """
 cursor.execute(insert_query, chat_data)

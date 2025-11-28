@@ -67,6 +67,7 @@ class User(BaseModel):
 class Chat(BaseModel):
     user_id: int
     chat_title: str
+    video_url: str
     video_transcript: str | None = None
 
 class ChatLog(BaseModel):
@@ -131,9 +132,9 @@ def get_user_chats(user_id: int):
 def create_chat(chat: Chat):
     require_db_connection()
     cursor.execute("""
-        INSERT INTO chats_list (user_id, chat_title, video_transcript)
+        INSERT INTO chats_list (user_id, chat_title, video_url, video_transcript)
         VALUES (%s, %s, %s) RETURNING chat_id
-    """, (chat.user_id, chat.chat_title, chat.video_transcript))
+    """, (chat.user_id, chat.chat_title, chat.video_url, chat.video_transcript))
     conn.commit()
     return {"chat_id": cursor.fetchone()["chat_id"]}
 
