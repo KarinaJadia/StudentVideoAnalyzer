@@ -1,7 +1,8 @@
 import React from "react";
 import "./Transcription.css";
 
-export default function Transcription() {
+export default function Transcription({ chatId }) {
+  console.log("Current chatId:", chatId);
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {

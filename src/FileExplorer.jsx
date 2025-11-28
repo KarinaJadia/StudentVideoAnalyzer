@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as api from "./apis";
 import "./FileExplorer.css";
 
-const FileExplorer = ({setCurrentPage, userId}) => {
+const FileExplorer = ({ setCurrentPage, userId, setCurrentChatId }) => {
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
@@ -45,8 +45,9 @@ const FileExplorer = ({setCurrentPage, userId}) => {
 }, [userId]);
 
   const handleChatClick = (chatId) => {
-    // redirect to a specific chat page
-    navigate(`/chat/${chatId}`);
+    // pass chatId to App state and switch page
+    setCurrentChatId(chatId);
+    setCurrentPage('transcription');
   };
 
   const handleBackClick = () => {

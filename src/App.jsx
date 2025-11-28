@@ -13,6 +13,7 @@ import * as api from "./apis";
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
   const [userId, setUserId] = useState(localStorage.getItem("user_id")); // USER ID SUPER IMPORTANT
+  const [currentChatId, setCurrentChatId] = useState(null);
 
   useEffect(() => {
     api.connectDB("studentanalyzer") // password!!!
@@ -37,9 +38,9 @@ function App() {
     } else if (currentPage === 'Home') {
       return <Home setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'transcription') {
-      return <Transcription setCurrentPage={setCurrentPage} userId={userId}/>;
+      return <Transcription setCurrentPage={setCurrentPage} chatId={currentChatId} userId={userId}/>;
     } else if (currentPage === 'FileExplorer') {
-      return <FileExplorer setCurrentPage={setCurrentPage} userId={userId}/>;
+      return <FileExplorer setCurrentPage={setCurrentPage} setCurrentChatId={setCurrentChatId} userId={userId}/>;
     } else if (currentPage === 'About') {
       return <About setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'Admin') {
