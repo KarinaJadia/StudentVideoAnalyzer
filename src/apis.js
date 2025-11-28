@@ -99,7 +99,7 @@ export async function login(username, password) {
 
 /*
 returns chat id and video url
- */
+*/
 export async function uploadVideo(user_id, chat_title, file) {
   const formData = new FormData();
   formData.append("file", file);
