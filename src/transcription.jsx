@@ -1,41 +1,89 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import * as api from "./apis";
 import "./Transcription.css";
 
-export default function Transcription() {
-  const handleFileUpload = (event) => {
+export default function Transcription({ userId, chatId }) {
+  const [videoUrl, setVideoUrl] = useState(null);
+
+  useEffect(() => {
+    if (chatId) {
+      api.viewVideo(chatId)
+        .then((res) => {
+          if (res.video_url) {
+            console.log("Video URL:", res.video_url);
+            setVideoUrl(res.video_url);
+          }
+        })
+        .catch((err) => console.error("Failed to fetch video:", err));
+    }
+  }, [chatId]);
+
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      console.log('Selected file:', file.name);
-      // Handle the file
+    if (!file) return;
+
+    const title = prompt("Enter a title for this lecture:");
+    if (!title) {
+      alert("Upload canceled — title is required.");
+      return;
+    }
+
+    try {
+      const res = await api.uploadVideo(
+        userId,
+        title,  // <-- user-provided title
+        file
+      );
+
+      console.log("Upload success:", res);
+
+      if (res.video_url) {
+        setVideoUrl(res.video_url);
+      }
+
+    } catch (err) {
+      console.error("Upload failed:", err);
     }
   };
 
   return (
     <div className="transcription-full">
-      
       <div className="transcription-box">
-        {/* Gradient Header */}
         <div className="transcription-header">
           <div className="inner">
             <h2>Lecture Transcript and Summary</h2>
-            <p>
-              Add a lecture video OR paste an existing transcript to get an
-              AI-generated summary.
-            </p>
+            <p>Add a lecture video OR paste an existing transcript to get an AI-generated summary.</p>
           </div>
         </div>
 
-        {/* White Body */}
         <div className="transcription-content">
           <div className="inner">
-            {/* Drag & Drop Box */}
+            {/* Video Display */}
+            {videoUrl && (
+              <div className="video-container">
+                <video
+                  src={videoUrl}
+                  controls
+                  style={{ width: "100%", maxHeight: "400px", marginBottom: "1rem" }}
+                />
+              </div>
+            )}
+
+            {/* Drag & Drop / Upload Box */}
             <div className="transcription-drag-drop">
               <h3>Drag & Drop your lecture video or transcript here</h3>
               <p>Accepted: MP4, MOV, TXT, PDF • Max 500MB</p>
               <div className="button-row">
                 <form id="upload-button">
-                  <input type="file" hidden id="file-upload" onChange={handleFileUpload}/>
-                  <label htmlFor="file-upload" className="upload">Upload Video File📤</label>
+                  <input
+                    type="file"
+                    hidden
+                    id="file-upload"
+                    onChange={handleFileUpload}
+                  />
+                  <label htmlFor="file-upload" className="upload">
+                    Upload Video File📤
+                  </label>
                 </form>
                 <button className="generate">Generate Summary</button>
               </div>
@@ -61,8 +109,8 @@ export default function Transcription() {
         </div>
       </div>
       <footer className="footer">
-          <p>© 2025 Student Video Analyzer</p>
-        </footer>
+        <p>© 2025 Student Video Analyzer</p>
+      </footer>
     </div>
   );
 }

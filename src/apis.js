@@ -96,3 +96,29 @@ export async function getPermission(user_id) {
 export async function login(username, password) {
   return request("/login", "POST", { username, password });
 }
+
+/*
+returns chat id and video url
+*/
+export async function uploadVideo(user_id, chat_title, file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("user_id", String(user_id));
+  formData.append("chat_title", chat_title);
+
+  const res = await fetch(`${BASE_URL}/upload_video`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    throw new Error(error.detail || `Upload failed: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function viewVideo(chat_id) {
+  return request(`/view_video/${chat_id}`, "GET");
+}

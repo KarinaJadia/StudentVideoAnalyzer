@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Admin.css';
 
-const Admin = () => {
+const Admin = ({userId}) => {
   const [users, setUsers] = useState([]);
  
   // fake data for now 
