@@ -1,13 +1,15 @@
 # to test: http://127.0.0.1:8000/docs
 # make sure to connect to database first! (you know the password)
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from hashlib import sha256
 import uvicorn
+import boto3
+import uuid
 
 app = FastAPI()
 
@@ -25,6 +27,13 @@ cursor = None
 
 class DBConnectRequest(BaseModel):
     password: str
+
+s3 = boto3.client(
+    "s3",
+    aws_access_key_id="censored",
+    aws_secret_access_key="censored",
+    region_name="us-east-1"
+)
 
 @app.post("/connect")
 def connect_db(req: DBConnectRequest):
@@ -58,6 +67,7 @@ class User(BaseModel):
 class Chat(BaseModel):
     user_id: int
     chat_title: str
+    video_url: str
     video_transcript: str | None = None
 
 class ChatLog(BaseModel):
@@ -122,11 +132,65 @@ def get_user_chats(user_id: int):
 def create_chat(chat: Chat):
     require_db_connection()
     cursor.execute("""
-        INSERT INTO chats_list (user_id, chat_title, video_transcript)
+        INSERT INTO chats_list (user_id, chat_title, video_url, video_transcript)
         VALUES (%s, %s, %s) RETURNING chat_id
-    """, (chat.user_id, chat.chat_title, chat.video_transcript))
+    """, (chat.user_id, chat.chat_title, chat.video_url, chat.video_transcript))
     conn.commit()
     return {"chat_id": cursor.fetchone()["chat_id"]}
+
+@app.post("/upload_video")
+async def upload_video(
+    user_id: int = Form(...),
+    chat_title: str = Form(...),
+    file: UploadFile = File(...)
+):
+    require_db_connection()
+
+    allowed_types = ["video/mp4", "video/mov", "video/quicktime"]
+    if file.content_type not in allowed_types:
+        raise HTTPException(status_code=400, detail="Invalid video format")
+
+    file_extension = file.filename.split(".")[-1]
+    s3_key = f"videos/{uuid.uuid4()}.{file_extension}"
+
+    try:
+        s3.upload_fileobj(
+            file.file,
+            "studentanalyzer-bucket",
+            s3_key,
+            ExtraArgs={"ContentType": file.content_type}
+        )
+
+        video_url = f"https://studentanalyzer-bucket.s3.amazonaws.com/{s3_key}"
+
+        cursor.execute("""
+            INSERT INTO chats_list (user_id, chat_title, video_url)
+            VALUES (%s, %s, %s)
+            RETURNING chat_id
+        """, (user_id, chat_title, video_url))
+
+        conn.commit()
+        new_chat_id = cursor.fetchone()["chat_id"]
+
+        return {
+            "status": "uploaded",
+            "chat_id": new_chat_id,
+            "video_url": video_url
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"S3 upload failed: {e}")
+    
+@app.get("/view_video/{chat_id}")
+def view_video(chat_id: int):
+    require_db_connection()
+    cursor.execute("SELECT video_url FROM chats_list WHERE chat_id = %s", (chat_id,))
+    result = cursor.fetchone()
+
+    if not result or not result.get("video_url"):
+        raise HTTPException(status_code=404, detail="Video not found for this chat")
+    
+    return {"chat_id": chat_id, "video_url": result["video_url"]}
 
 @app.get("/chats/{chat_id}")
 def get_chat(chat_id: int):

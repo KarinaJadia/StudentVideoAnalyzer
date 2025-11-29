@@ -1,27 +1,53 @@
 import React, { useEffect, useState } from "react";
+import * as api from "./apis";
 import "./FileExplorer.css";
 
-const ChatHistory = ({setCurrentPage}) => {
+const FileExplorer = ({ setCurrentPage, userId, setCurrentChatId }) => {
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
-    // fake db stuff
-    const data = [
-      { id: 1, title: "Biology Lecture 3", lastAccessed: "2 hrs" },
-      { id: 2, title: "History of Armadillos", lastAccessed: "8 hrs" },
-      { id: 3, title: "Biology Lecture 1", lastAccessed: "1 day ago" },
-      { id: 4, title: "How to Cook Lasagna", lastAccessed: "9/2/2025" },
-      { id: 5, title: "Intro to Biology", lastAccessed: "8/29/2025" },
-      { id: 6, title: "What to pack for college", lastAccessed: "8/29/2025" },
-      { id: 7, title: "Apple vs Samsung", lastAccessed: "8/4/2025" },
-      { id: 8, title: "Victorious Video Essay", lastAccessed: "8/1/2025" },
-    ];
-    setChats(data);
-  }, []);
+  async function loadChats() {
+    try {
+      const res = await api.getUserChats(userId);
+      // console.log("Raw data:", res);
+
+      // convert backend fields to frontend fields
+      const formatted = res.map(item => {
+
+      // format date
+      const date = item.created_date ? new Date(item.created_date) : null;
+      const created = date
+        ? date.toLocaleString(undefined, { 
+            year: "numeric", 
+            month: "2-digit", 
+            day: "2-digit", 
+            hour: "2-digit", 
+            minute: "2-digit", 
+            hour12: true 
+          })
+        : "N/A";
+
+      return {
+        id: item.chat_id,
+        title: item.chat_title,
+        created
+      };
+    });
+
+      setChats(formatted);
+
+    } catch (err) {
+      console.error("Failed to load chats:", err);
+    }
+  }
+
+  if (userId) loadChats();
+}, [userId]);
 
   const handleChatClick = (chatId) => {
-    // redirect to a specific chat page
-    navigate(`/chat/${chatId}`);
+    // pass chatId to App state and switch page
+    setCurrentChatId(chatId);
+    setCurrentPage('transcription');
   };
 
   const handleBackClick = () => {
@@ -41,7 +67,7 @@ const ChatHistory = ({setCurrentPage}) => {
             onClick={() => handleChatClick(chat.id)}
           >
             <span className="chat-name">{chat.title}</span>
-            <span className="chat-date">Last Accessed: {chat.lastAccessed}</span>
+            <span className="chat-date">Created: {chat.created}</span>
           </button>
         ))}
         <button className="back-button" onClick={() => handleBackClick()} >&lt; Back</button>
@@ -50,4 +76,4 @@ const ChatHistory = ({setCurrentPage}) => {
   );
 };
 
-export default ChatHistory;
+export default FileExplorer;

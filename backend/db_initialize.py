@@ -2,6 +2,7 @@
 # do not run unless you want to RESET the database and DELETE ALL DATA
 
 # database: https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#database:id=studentanalyzer-db
+# bucket: https://us-east-1.console.aws.amazon.com/s3/buckets?region=us-east-1
 
 import psycopg2
 import random
@@ -68,6 +69,22 @@ for i in range(0, 6):
     """
 
     cursor.execute(insert_query, chat_data)
+conn.commit()
+
+# IF YOU ARE SETTING UP YOUR OWN S3 BUCKET, TURN OFF ALL PERMISSIONS AND SET UP A CORS POLICY AND A BUCKET POLICY
+# OR IT WON'T WORK
+test_vid_url = 'https://studentanalyzer-bucket.s3.us-east-1.amazonaws.com/individual_project.mov'
+chat_data = {
+    "user_id": 1,
+    "chat_title": "Test Video",
+    "video_url": test_vid_url
+}
+
+insert_query = """
+INSERT INTO chats_list (user_id, chat_title, video_url)
+VALUES (%(user_id)s, %(chat_title)s, %(video_url)s)
+"""
+cursor.execute(insert_query, chat_data)
 conn.commit()
 
 # fake chats

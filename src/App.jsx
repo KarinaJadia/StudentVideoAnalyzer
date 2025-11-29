@@ -8,14 +8,15 @@ import FileExplorer from './FileExplorer';
 import Home from './Home';
 import Transcription from './transcription';
 import ApiTester from "./ApiTester";
-import { connectDB } from "./apis";
+import * as api from "./apis";
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
   const [userId, setUserId] = useState(localStorage.getItem("user_id")); // USER ID SUPER IMPORTANT
+  const [currentChatId, setCurrentChatId] = useState(null);
 
   useEffect(() => {
-    connectDB("studentanalyzer") // password!!!
+    api.connectDB("studentanalyzer") // password!!!
       .then(() => console.log("DB connected"))
       .catch((err) => console.error("DB connection failed:", err));
   }, []);
@@ -37,13 +38,13 @@ function App() {
     } else if (currentPage === 'Home') {
       return <Home setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'transcription') {
-      return <Transcription setCurrentPage={setCurrentPage} />;
+      return <Transcription setCurrentPage={setCurrentPage} chatId={currentChatId} userId={userId}/>;
     } else if (currentPage === 'FileExplorer') {
-      return <FileExplorer setCurrentPage={setCurrentPage} />;
+      return <FileExplorer setCurrentPage={setCurrentPage} setCurrentChatId={setCurrentChatId} userId={userId}/>;
     } else if (currentPage === 'About') {
       return <About setCurrentPage={setCurrentPage} />;
     } else if (currentPage === 'Admin') {
-      return <Admin setCurrentPage={setCurrentPage} />;
+      return <Admin setCurrentPage={setCurrentPage} userId={userId}/>;
     }else if (currentPage === 'API Tester') {
       return <ApiTester setCurrentPage={setCurrentPage} />;
     } else {

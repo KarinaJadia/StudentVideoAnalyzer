@@ -15,7 +15,8 @@ CREATE TABLE chats_list (
     chat_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     chat_title VARCHAR(150) NOT NULL,
-    video_transcript TEXT,  -- can store entire transcript as JSON or plain text
+    video_url VARCHAR(500), -- URL to video in S3
+    video_transcript TEXT, -- can store entire transcript as plain text
     created_date TIMESTAMP DEFAULT NOW(),
     last_access_date TIMESTAMP DEFAULT NOW()
 );
