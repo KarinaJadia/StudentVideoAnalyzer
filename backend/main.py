@@ -1,7 +1,7 @@
 # to test: http://127.0.0.1:8000/docs
 # make sure to connect to database first! (you know the password)
 
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import psycopg2
@@ -140,8 +140,8 @@ def create_chat(chat: Chat):
 
 @app.post("/upload_video")
 async def upload_video(
-    user_id: int,
-    chat_title: str,
+    user_id: int = Form(...),
+    chat_title: str = Form(...),
     file: UploadFile = File(...)
 ):
     require_db_connection()

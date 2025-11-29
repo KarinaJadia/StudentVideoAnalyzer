@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as api from "./apis";
 import "./Transcription.css";
 
-export default function Transcription({ chatId }) {
+export default function Transcription({ userId, chatId }) {
   const [videoUrl, setVideoUrl] = useState(null);
 
   useEffect(() => {
@@ -18,11 +18,31 @@ export default function Transcription({ chatId }) {
     }
   }, [chatId]);
 
-  const handleFileUpload = (event) => {
+  const handleFileUpload = async (event) => {
     const file = event.target.files[0];
-    if (file) {
-      console.log('Selected file for chatId', chatId, ':', file.name);
-      // handle upload logic
+    if (!file) return;
+
+    const title = prompt("Enter a title for this lecture:");
+    if (!title) {
+      alert("Upload canceled — title is required.");
+      return;
+    }
+
+    try {
+      const res = await api.uploadVideo(
+        userId,
+        title,  // <-- user-provided title
+        file
+      );
+
+      console.log("Upload success:", res);
+
+      if (res.video_url) {
+        setVideoUrl(res.video_url);
+      }
+
+    } catch (err) {
+      console.error("Upload failed:", err);
     }
   };
 

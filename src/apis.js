@@ -103,7 +103,7 @@ returns chat id and video url
 export async function uploadVideo(user_id, chat_title, file) {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("user_id", user_id);
+  formData.append("user_id", String(user_id));
   formData.append("chat_title", chat_title);
 
   const res = await fetch(`${BASE_URL}/upload_video`, {
