@@ -71,7 +71,9 @@ for i in range(0, 6):
     cursor.execute(insert_query, chat_data)
 conn.commit()
 
-test_vid_url = 'https://studentanalyzer-bucket.s3.us-east-1.amazonaws.com/individual+project.mov'
+# IF YOU ARE SETTING UP YOUR OWN S3 BUCKET, TURN OFF ALL PERMISSIONS AND SET UP A CORS POLICY AND A BUCKET POLICY
+# OR IT WON'T WORK
+test_vid_url = 'https://studentanalyzer-bucket.s3.us-east-1.amazonaws.com/individual_project.mov'
 chat_data = {
     "user_id": 1,
     "chat_title": "Test Video",
