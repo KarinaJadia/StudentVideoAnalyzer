@@ -10,6 +10,8 @@ from hashlib import sha256
 import uvicorn
 import boto3
 import uuid
+import os
+from dotenv import load_dotenv
 
 app = FastAPI()
 
@@ -28,10 +30,12 @@ cursor = None
 class DBConnectRequest(BaseModel):
     password: str
 
+load_dotenv()
+
 s3 = boto3.client(
     "s3",
-    aws_access_key_id="censored",
-    aws_secret_access_key="censored",
+    aws_access_key_id=os.getenv("aws_access_key_id"),
+    aws_secret_access_key=os.getenv("aws_secret_access_key"),
     region_name="us-east-1"
 )
 
