@@ -3,9 +3,15 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 import tempfile
-import requests
 import whisper
-import torch
+
+'''
+.env required values:
+gemini_api_key =
+openai_api_key =
+aws_access_key_id =
+aws_secret_access_key =
+'''
 
 load_dotenv()
 
@@ -20,7 +26,7 @@ def ask_gemini(prompt):
 
 # whisper model for generating transcripts
 # pip install git+https://github.com/openai/whisper.git
-whisper_model = whisper.load_model("base")  # or "small", "medium", "large"
+whisper_model = whisper.load_model("base")
 
 def download_file(url, dst_path, chunk=1024 * 1024):
     import requests
