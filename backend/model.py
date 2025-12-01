@@ -1,8 +1,6 @@
 import subprocess
-from pathlib import Path
 import google.generativeai as genai
 from dotenv import load_dotenv
-import requests
 import os
 import tempfile
 import requests
@@ -16,13 +14,11 @@ genai.configure(api_key=os.getenv("gemini_api_key"))
 gem_model = genai.GenerativeModel("gemini-2.5-flash")
 
 def ask_gemini(prompt):
-    # in main:
-    # user_input = input("Ask Gemini: ")
-    # answer = ask_gemini(user_input)
-    # print("\nGemini:", answer)
+    ''' takes a user prompt and returns gemini answer '''
     response = gem_model.generate_content(prompt)
     return response.text
 
+# whisper model for generating transcripts
 # pip install git+https://github.com/openai/whisper.git
 whisper_model = whisper.load_model("base")  # or "small", "medium", "large"
 
