@@ -10,6 +10,9 @@ from hashlib import sha256
 import uvicorn
 import boto3
 import uuid
+import os
+from dotenv import load_dotenv
+import model
 
 app = FastAPI()
 
@@ -28,10 +31,12 @@ cursor = None
 class DBConnectRequest(BaseModel):
     password: str
 
+load_dotenv()
+
 s3 = boto3.client(
     "s3",
-    aws_access_key_id="censored",
-    aws_secret_access_key="censored",
+    aws_access_key_id=os.getenv("aws_access_key_id"),
+    aws_secret_access_key=os.getenv("aws_secret_access_key"),
     region_name="us-east-1"
 )
 
@@ -84,6 +89,9 @@ class Permission(BaseModel):
 class LoginRequest(BaseModel):
     username: str
     password: str
+
+class GeminiRequest(BaseModel):
+    prompt: str
 
 @app.post("/users")
 def create_user(user: User):
@@ -210,6 +218,14 @@ def create_chat_log(log: ChatLog):
     """, (log.chat_id, log.role, log.content))
     conn.commit()
     return {"message_id": cursor.fetchone()["message_id"]}
+
+@app.post("/ask_gemini")
+def ask_gemini_endpoint(req: GeminiRequest):
+    try:
+        answer = model.ask_gemini(req.prompt)
+        return {"prompt": req.prompt, "answer": answer}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/chat_logs/{chat_id}")
 def get_chat_logs(chat_id: int):
