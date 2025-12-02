@@ -122,3 +122,17 @@ export async function uploadVideo(user_id, chat_title, file) {
 export async function viewVideo(chat_id) {
   return request(`/view_video/${chat_id}`, "GET");
 }
+
+/*
+returns prompt and answer
+*/
+export async function askGemini(prompt) {
+  return request("/ask_gemini", "POST", { prompt });
+}
+
+/*
+returns video url and transcription
+*/
+export async function transcribeVideo(video_url) {
+  return request("/transcribe_video", "POST", { video_url });
+}
