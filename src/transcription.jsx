@@ -6,9 +6,13 @@ export default function Transcription({ userId, chatId }) {
   const [chatIdState, setChatIdState] = useState(chatId);
   const [videoUrl, setVideoUrl] = useState(null);
   const [transcript, setTranscript] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [summary, setSummary] = useState("");
+  const [loadingTranscript, setLoadingTranscript] = useState(false);
+  const [loadingSummary, setLoadingSummary] = useState(false);
+  const [muffinQuestion, setMuffinQuestion] = useState("");
+  const [muffinAnswer, setMuffinAnswer] = useState("");
+  const [loadingMuffin, setLoadingMuffin] = useState(false);
 
-  // Update chatIdState if prop changes
   useEffect(() => {
     setChatIdState(chatId);
   }, [chatId]);
@@ -18,24 +22,41 @@ export default function Transcription({ userId, chatId }) {
     if (!chatIdState) return;
 
     const fetchChat = async () => {
-      setLoading(true);
+      setLoadingTranscript(true);
       try {
         const chatData = await api.getChat(chatIdState);
         setVideoUrl(chatData.video_url || null);
         setTranscript(chatData.video_transcript || "");
+        setSummary(""); // clear previous summary
       } catch (err) {
         console.error("Failed to fetch chat:", err);
         setVideoUrl(null);
         setTranscript("");
       } finally {
-        setLoading(false);
+        setLoadingTranscript(false);
       }
     };
 
     fetchChat();
   }, [chatIdState]);
 
-  // Handle uploading a new video
+  const generateSummary = async () => {
+    if (!transcript) {
+      alert("Transcript is empty!");
+      return;
+    }
+    setLoadingSummary(true);
+    try {
+      const res = await api.askGemini(`Please summarize the following transcript:\n\n${transcript}`);
+      setSummary(res.answer || "No summary returned.");
+    } catch (err) {
+      console.error("Failed to generate summary:", err);
+      alert("Failed to generate summary.");
+    } finally {
+      setLoadingSummary(false);
+    }
+  };
+
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -47,17 +68,30 @@ export default function Transcription({ userId, chatId }) {
     }
 
     try {
-      // ipload and transcribe
       const newChatId = await api.uploadAndTranscribe(userId, title, file);
       setChatIdState(newChatId);
 
-      // fetch the chat again to get updated video + transcript
       const chatData = await api.getChat(newChatId);
       setVideoUrl(chatData.video_url || null);
       setTranscript(chatData.video_transcript || "");
+      setSummary(""); // clear previous summary
     } catch (err) {
       console.error("Upload and transcription failed:", err);
       alert("Failed to upload and transcribe video.");
+    }
+  };
+
+  const askMuffin = async () => {
+    if (!muffinQuestion) return;
+    setLoadingMuffin(true);
+    try {
+      const res = await api.askGemini(muffinQuestion);
+      setMuffinAnswer(res.answer || "No answer returned.");
+    } catch (err) {
+      console.error("Failed to ask Muffin:", err);
+      alert("Failed to get answer from Muffin.");
+    } finally {
+      setLoadingMuffin(false);
     }
   };
 
@@ -100,35 +134,60 @@ export default function Transcription({ userId, chatId }) {
                     Upload Video File📤
                   </label>
                 </form>
-                <button className="generate">Generate Summary</button>
+                <button className="generate" onClick={generateSummary}>
+                  Generate AI Summary
+                </button>
               </div>
+            </div>
+
+            {/* Transcript Box */}
+            <div className="transcription-box-section">
+              <h3>Transcript</h3>
+              {loadingTranscript ? (
+                <p>Loading transcript...</p>
+              ) : (
+                <textarea
+                  value={transcript}
+                  onChange={(e) => setTranscript(e.target.value)}
+                  rows={10}
+                  style={{ width: "100%" }}
+                />
+              )}
             </div>
 
             {/* AI Summary Box */}
             <div className="transcription-ai-summary">
               <h3>AI Summary</h3>
-              {loading ? (
-                <p>Loading transcript...</p>
-              ) : transcript ? (
-                <p>{transcript}</p>
+              {loadingSummary ? (
+                <p>Generating summary...</p>
+              ) : summary ? (
+                <p>{summary}</p>
               ) : (
-                <ul>
-                  <li>Bullet 1</li>
-                  <li>Bullet 2</li>
-                  <li>Bullet 3</li>
-                </ul>
+                <p>No summary generated yet. Click "Generate AI Summary" to create one.</p>
               )}
-              <button className="download">Download</button>
             </div>
 
             {/* Ask Muffin Box */}
             <div className="transcription-ask-muffin">
               <h3>Ask Muffin</h3>
-              <input type="text" placeholder="Ask Anything" />
+              <div style={{ display: "flex", gap: "0.5rem" }}>
+                <input
+                  type="text"
+                  placeholder="Ask Anything"
+                  value={muffinQuestion}
+                  onChange={(e) => setMuffinQuestion(e.target.value)}
+                  style={{ flex: 1 }}
+                />
+                <button onClick={askMuffin}>Ask</button>
+              </div>
+              {loadingMuffin && <p>Thinking...</p>}
+              {muffinAnswer && <p><strong>Muffin:</strong> {muffinAnswer}</p>}
             </div>
+
           </div>
         </div>
       </div>
+
       <footer className="footer">
         <p>© 2025 Student Video Analyzer</p>
       </footer>
