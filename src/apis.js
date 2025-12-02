@@ -159,3 +159,29 @@ export async function updateTranscript(chat_id, transcript) {
     transcript,
   });
 }
+
+// uploads and transcribes and returns chat id
+export async function uploadAndTranscribe(user_id, chat_title, file) {
+  try {
+    // upload
+    const uploadRes = await uploadVideo(user_id, chat_title, file);
+    const { chat_id, video_url } = uploadRes;
+
+    if (!video_url) throw new Error("Video URL not returned from upload");
+
+    // transcribes
+    const transcriptionRes = await transcribeVideo(video_url);
+    const { transcript } = transcriptionRes;
+
+    if (!transcript) throw new Error("Transcription failed");
+
+    // update the transcript in the chat
+    await updateTranscript(chat_id, transcript);
+
+    // return the chat_id
+    return chat_id;
+  } catch (err) {
+    console.error("Error in uploadAndTranscribe:", err);
+    throw err;
+  }
+}
