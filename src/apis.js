@@ -124,14 +124,18 @@ export async function viewVideo(chat_id) {
 }
 
 /*
-returns prompt and answer
+returns
+"prompt": prompt
+"answer": answer
 */
 export async function askGemini(prompt) {
   return request("/ask_gemini", "POST", { prompt });
 }
 
 /*
-returns video url and transcription
+returns
+"video_url": video_url,
+"transcript": transcript
 */
 export async function transcribeVideo(video_url) {
   return request("/transcribe_video", "POST", { video_url });
