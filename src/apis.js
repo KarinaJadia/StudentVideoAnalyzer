@@ -52,6 +52,16 @@ export async function createChat(user_id, chat_title, video_transcript = null) {
   return request("/chats", "POST", { user_id, chat_title, video_transcript });
 }
 
+/*
+returns
+"chat_id": chat_id
+"user_id": user_id
+"chat_title": chat_title
+"video_url": video_url
+"video_transcript": video_transcript
+"created_date": created_date
+"last_access_date": last_access_date
+*/
 export async function getChat(chat_id) {
   return request(`/chats/${chat_id}`, "GET");
 }
@@ -119,6 +129,55 @@ export async function uploadVideo(user_id, chat_title, file) {
   return res.json();
 }
 
-export async function viewVideo(chat_id) {
-  return request(`/view_video/${chat_id}`, "GET");
+/*
+returns
+"prompt": prompt
+"answer": answer
+*/
+export async function askGemini(prompt) {
+  return request("/ask_gemini", "POST", { prompt });
+}
+
+/*
+returns
+"video_url": video_url,
+"transcript": transcript
+*/
+export async function transcribeVideo(video_url) {
+  return request("/transcribe_video", "POST", { video_url });
+}
+
+/*
+returns chat id
+*/
+export async function updateTranscript(chat_id, transcript) {
+  return request(`/update_transcript/${chat_id}`, "POST", {
+    transcript,
+  });
+}
+
+// uploads and transcribes and returns chat id
+export async function uploadAndTranscribe(user_id, chat_title, file) {
+  try {
+    // upload
+    const uploadRes = await uploadVideo(user_id, chat_title, file);
+    const { chat_id, video_url } = uploadRes;
+
+    if (!video_url) throw new Error("Video URL not returned from upload");
+
+    // transcribes
+    const transcriptionRes = await transcribeVideo(video_url);
+    const { transcript } = transcriptionRes;
+
+    if (!transcript) throw new Error("Transcription failed");
+
+    // update the transcript in the chat
+    await updateTranscript(chat_id, transcript);
+
+    // return the chat_id
+    return chat_id;
+  } catch (err) {
+    console.error("Error in uploadAndTranscribe:", err);
+    throw err;
+  }
 }

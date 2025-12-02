@@ -92,6 +92,12 @@ class LoginRequest(BaseModel):
 
 class GeminiRequest(BaseModel):
     prompt: str
+   
+class TranscribeRequest(BaseModel):
+    video_url: str
+
+class UpdateTranscriptRequest(BaseModel):
+    transcript: str
 
 @app.post("/users")
 def create_user(user: User):
@@ -188,18 +194,8 @@ async def upload_video(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"S3 upload failed: {e}")
-    
-@app.get("/view_video/{chat_id}")
-def view_video(chat_id: int):
-    require_db_connection()
-    cursor.execute("SELECT video_url FROM chats_list WHERE chat_id = %s", (chat_id,))
-    result = cursor.fetchone()
 
-    if not result or not result.get("video_url"):
-        raise HTTPException(status_code=404, detail="Video not found for this chat")
-    
-    return {"chat_id": chat_id, "video_url": result["video_url"]}
-
+# gets information about a chat including transcripts and stuff
 @app.get("/chats/{chat_id}")
 def get_chat(chat_id: int):
     require_db_connection()
@@ -208,6 +204,25 @@ def get_chat(chat_id: int):
     if not chat:
         raise HTTPException(status_code=404, detail="Chat not found")
     return chat
+
+@app.post("/update_transcript/{chat_id}")
+def update_transcript(chat_id: int, req: UpdateTranscriptRequest):
+    require_db_connection()
+
+    cursor.execute("""
+        UPDATE chats_list
+        SET video_transcript = %s
+        WHERE chat_id = %s
+        RETURNING chat_id
+    """, (req.transcript, chat_id))
+
+    updated = cursor.fetchone()
+    conn.commit()
+
+    if not updated:
+        raise HTTPException(status_code=404, detail="Chat not found")
+
+    return chat_id
 
 @app.post("/chat_logs")
 def create_chat_log(log: ChatLog):
@@ -226,6 +241,17 @@ def ask_gemini_endpoint(req: GeminiRequest):
         return {"prompt": req.prompt, "answer": answer}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/transcribe_video")
+def transcribe_video(req: TranscribeRequest):
+    try:
+        transcript = model.transcribe_s3_video(req.video_url)
+        return {
+            "video_url": req.video_url,
+            "transcript": transcript
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Transcription failed: {e}")
 
 @app.get("/chat_logs/{chat_id}")
 def get_chat_logs(chat_id: int):
