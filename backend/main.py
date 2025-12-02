@@ -203,6 +203,7 @@ def view_video(chat_id: int):
     
     return {"chat_id": chat_id, "video_url": result["video_url"]}
 
+# gets information about a chat including transcripts and stuff
 @app.get("/chats/{chat_id}")
 def get_chat(chat_id: int):
     require_db_connection()
