@@ -54,13 +54,13 @@ export async function createChat(user_id, chat_title, video_transcript = null) {
 
 /*
 returns
-"chat_id":
-"user_id":
-"chat_title":
-"video_url":
-"video_transcript":
-"created_date":
-"last_access_date":
+"chat_id": chat_id
+"user_id": user_id
+"chat_title": chat_title
+"video_url": video_url
+"video_transcript": video_transcript
+"created_date": created_date
+"last_access_date": last_access_date
 */
 export async function getChat(chat_id) {
   return request(`/chats/${chat_id}`, "GET");
