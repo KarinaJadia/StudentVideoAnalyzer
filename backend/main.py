@@ -92,6 +92,9 @@ class LoginRequest(BaseModel):
 
 class GeminiRequest(BaseModel):
     prompt: str
+   
+class TranscribeRequest(BaseModel):
+    video_url: str
 
 @app.post("/users")
 def create_user(user: User):
@@ -226,6 +229,17 @@ def ask_gemini_endpoint(req: GeminiRequest):
         return {"prompt": req.prompt, "answer": answer}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/transcribe_video")
+def transcribe_video(req: TranscribeRequest):
+    try:
+        transcript = model.transcribe_s3_video(req.video_url)
+        return {
+            "video_url": req.video_url,
+            "transcript": transcript
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Transcription failed: {e}")
 
 @app.get("/chat_logs/{chat_id}")
 def get_chat_logs(chat_id: int):
