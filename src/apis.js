@@ -129,10 +129,6 @@ export async function uploadVideo(user_id, chat_title, file) {
   return res.json();
 }
 
-export async function viewVideo(chat_id) {
-  return request(`/view_video/${chat_id}`, "GET");
-}
-
 /*
 returns
 "prompt": prompt

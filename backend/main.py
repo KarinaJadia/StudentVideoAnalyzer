@@ -194,17 +194,6 @@ async def upload_video(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"S3 upload failed: {e}")
-    
-@app.get("/view_video/{chat_id}")
-def view_video(chat_id: int):
-    require_db_connection()
-    cursor.execute("SELECT video_url FROM chats_list WHERE chat_id = %s", (chat_id,))
-    result = cursor.fetchone()
-
-    if not result or not result.get("video_url"):
-        raise HTTPException(status_code=404, detail="Video not found for this chat")
-    
-    return {"chat_id": chat_id, "video_url": result["video_url"]}
 
 # gets information about a chat including transcripts and stuff
 @app.get("/chats/{chat_id}")

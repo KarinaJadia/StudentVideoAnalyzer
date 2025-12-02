@@ -3,22 +3,39 @@ import * as api from "./apis";
 import "./Transcription.css";
 
 export default function Transcription({ userId, chatId }) {
-  const [videoUrl, setVideoUrl] = useState(null);
   const [chatIdState, setChatIdState] = useState(chatId);
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [transcript, setTranscript] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // Update chatIdState if prop changes
   useEffect(() => {
-    if (chatIdState) {
-      api.viewVideo(chatIdState)
-        .then((res) => {
-          if (res.video_url) {
-            console.log("Video URL:", res.video_url);
-            setVideoUrl(res.video_url);
-          }
-        })
-        .catch((err) => console.error("Failed to fetch video:", err));
-    }
+    setChatIdState(chatId);
+  }, [chatId]);
+
+  // Fetch chat (video + transcript) whenever chatIdState changes
+  useEffect(() => {
+    if (!chatIdState) return;
+
+    const fetchChat = async () => {
+      setLoading(true);
+      try {
+        const chatData = await api.getChat(chatIdState);
+        setVideoUrl(chatData.video_url || null);
+        setTranscript(chatData.video_transcript || "");
+      } catch (err) {
+        console.error("Failed to fetch chat:", err);
+        setVideoUrl(null);
+        setTranscript("");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchChat();
   }, [chatIdState]);
 
+  // Handle uploading a new video
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -30,20 +47,17 @@ export default function Transcription({ userId, chatId }) {
     }
 
     try {
-      // upload, transcribe, and update transcript
+      // ipload and transcribe
       const newChatId = await api.uploadAndTranscribe(userId, title, file);
-
-      console.log("Upload & transcription complete. Chat ID:", newChatId);
       setChatIdState(newChatId);
 
-      // fetch the video URL after everything is done
+      // fetch the chat again to get updated video + transcript
       const chatData = await api.getChat(newChatId);
-      if (chatData.video_url) {
-        setVideoUrl(chatData.video_url);
-      }
-
+      setVideoUrl(chatData.video_url || null);
+      setTranscript(chatData.video_transcript || "");
     } catch (err) {
       console.error("Upload and transcription failed:", err);
+      alert("Failed to upload and transcribe video.");
     }
   };
 
@@ -93,11 +107,17 @@ export default function Transcription({ userId, chatId }) {
             {/* AI Summary Box */}
             <div className="transcription-ai-summary">
               <h3>AI Summary</h3>
-              <ul>
-                <li>Bullet 1</li>
-                <li>Bullet 2</li>
-                <li>Bullet 3</li>
-              </ul>
+              {loading ? (
+                <p>Loading transcript...</p>
+              ) : transcript ? (
+                <p>{transcript}</p>
+              ) : (
+                <ul>
+                  <li>Bullet 1</li>
+                  <li>Bullet 2</li>
+                  <li>Bullet 3</li>
+                </ul>
+              )}
               <button className="download">Download</button>
             </div>
 
