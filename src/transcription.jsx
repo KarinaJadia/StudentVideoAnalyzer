@@ -85,7 +85,12 @@ export default function Transcription({ userId, chatId }) {
     if (!muffinQuestion) return;
     setLoadingMuffin(true);
     try {
-      const res = await api.askGemini(muffinQuestion);
+      // append transcript for context
+      const prompt = transcript
+        ? `${muffinQuestion}\n\nTranscript Context:\n${transcript}`
+        : muffinQuestion;
+
+      const res = await api.askGemini(prompt);
       setMuffinAnswer(res.answer || "No answer returned.");
     } catch (err) {
       console.error("Failed to ask Muffin:", err);
