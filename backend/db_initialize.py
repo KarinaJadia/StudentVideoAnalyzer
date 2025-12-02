@@ -87,7 +87,7 @@ VALUES (%(user_id)s, %(chat_title)s, %(video_url)s)
 cursor.execute(insert_query, chat_data)
 conn.commit()
 
-# fake chats
+# fake chats (rip)
 messages = [
     {"chat_id": 1, "role": "user", "content": "message from user!"},
     {"chat_id": 1, "role": "ai", "content": "response from ai!"},
