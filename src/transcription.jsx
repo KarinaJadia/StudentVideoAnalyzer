@@ -4,10 +4,11 @@ import "./Transcription.css";
 
 export default function Transcription({ userId, chatId }) {
   const [videoUrl, setVideoUrl] = useState(null);
+  const [chatIdState, setChatIdState] = useState(chatId);
 
   useEffect(() => {
-    if (chatId) {
-      api.viewVideo(chatId)
+    if (chatIdState) {
+      api.viewVideo(chatIdState)
         .then((res) => {
           if (res.video_url) {
             console.log("Video URL:", res.video_url);
@@ -16,7 +17,7 @@ export default function Transcription({ userId, chatId }) {
         })
         .catch((err) => console.error("Failed to fetch video:", err));
     }
-  }, [chatId]);
+  }, [chatIdState]);
 
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
@@ -29,20 +30,20 @@ export default function Transcription({ userId, chatId }) {
     }
 
     try {
-      const res = await api.uploadVideo(
-        userId,
-        title,  // <-- user-provided title
-        file
-      );
+      // upload, transcribe, and update transcript
+      const newChatId = await api.uploadAndTranscribe(userId, title, file);
 
-      console.log("Upload success:", res);
+      console.log("Upload & transcription complete. Chat ID:", newChatId);
+      setChatIdState(newChatId);
 
-      if (res.video_url) {
-        setVideoUrl(res.video_url);
+      // fetch the video URL after everything is done
+      const chatData = await api.getChat(newChatId);
+      if (chatData.video_url) {
+        setVideoUrl(chatData.video_url);
       }
 
     } catch (err) {
-      console.error("Upload failed:", err);
+      console.error("Upload and transcription failed:", err);
     }
   };
 
