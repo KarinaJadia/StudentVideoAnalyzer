@@ -96,6 +96,9 @@ class GeminiRequest(BaseModel):
 class TranscribeRequest(BaseModel):
     video_url: str
 
+class UpdateTranscriptRequest(BaseModel):
+    transcript: str
+
 @app.post("/users")
 def create_user(user: User):
     require_db_connection()
@@ -212,6 +215,25 @@ def get_chat(chat_id: int):
     if not chat:
         raise HTTPException(status_code=404, detail="Chat not found")
     return chat
+
+@app.post("/update_transcript/{chat_id}")
+def update_transcript(chat_id: int, req: UpdateTranscriptRequest):
+    require_db_connection()
+
+    cursor.execute("""
+        UPDATE chats_list
+        SET video_transcript = %s
+        WHERE chat_id = %s
+        RETURNING chat_id
+    """, (req.transcript, chat_id))
+
+    updated = cursor.fetchone()
+    conn.commit()
+
+    if not updated:
+        raise HTTPException(status_code=404, detail="Chat not found")
+
+    return chat_id
 
 @app.post("/chat_logs")
 def create_chat_log(log: ChatLog):

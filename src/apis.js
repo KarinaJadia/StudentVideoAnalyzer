@@ -150,3 +150,12 @@ returns
 export async function transcribeVideo(video_url) {
   return request("/transcribe_video", "POST", { video_url });
 }
+
+/*
+returns chat id
+*/
+export async function updateTranscript(chat_id, transcript) {
+  return request(`/update_transcript/${chat_id}`, "POST", {
+    transcript,
+  });
+}
