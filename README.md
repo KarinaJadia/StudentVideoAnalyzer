@@ -948,8 +948,11 @@ The backend must be connected to a valid database for login and data storage to 
  ## Future Improvements 
  ** Our above documentation describes our MVP at the end of the semester. Included below are some future improvements we would've liked to work on:
  - Currently only accepts uploaded video files or video links; potential to include PDFs, lecture slides, etc
+ - Functionality; there isn't an option to delete previously updated videos yet
  - "Ask Muffin" chatbox does not remember previous chats. More training needed to ensure the LLM can store memory and recall previously asked questions
- - MFA implementation; we are using mock data to run our webapp and did not implement multi-factor authentications for it. But in the future, if real data is used, this would need to be considered and implemented. 
+ - Some more enhanced CSS styling for chat functionality
+ - MFA implementation; we are using mock data to run our webapp and did not implement multi-factor authentications for it. But in the future, if real data is used, this would need to be considered and implemented.
+
 
 
  
